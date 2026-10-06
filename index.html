@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ponte Empreendedora</title>
+<meta name="description" content="Formulário passo a passo para mulheres migrantes montarem o plano do seu negócio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
+<style>
+/* Layout: caderno de trabalho. Trilha de passos à esquerda, a folha do formulário à direita; no celular, barra de progresso no topo. */
+:root{
+  --bg:#EEF2EF; --surface:#FFFFFF; --ink:#16232B; --muted:#56656C; --line:#D3DCD6;
+  --accent:#0B6E63; --accent-ink:#FFFFFF; --accent-soft:#D5ECE7;
+  --mark:#F5C842; --mark-soft:#FBEBB3;
+  --warn:#A8402A; --warn-soft:#F7E0D8; --ok:#2C7A47; --ok-soft:#DCEFE2;
+  --c-mat:#8A9BA3; --c-tempo:#0B6E63; --c-fix:#B9C7C0; --c-lucro:#E0A91B; --c-taxa:#C9705A;
+  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F171B; --surface:#172228; --ink:#E6EDEA; --muted:#9BAAB0; --line:#2A3A41;
+  --accent:#4FC3B2; --accent-ink:#06211D; --accent-soft:#16352F;
+  --mark:#F5C842; --mark-soft:#4A3D12;
+  --warn:#F0937A; --warn-soft:#3B211A; --ok:#72CC90; --ok-soft:#173222;
+  --c-mat:#6E8189; --c-tempo:#4FC3B2; --c-fix:#3D5058; --c-lucro:#F5C842; --c-taxa:#E08A73;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0F171B; --surface:#172228; --ink:#E6EDEA; --muted:#9BAAB0; --line:#2A3A41;
+  --accent:#4FC3B2; --accent-ink:#06211D; --accent-soft:#16352F;
+  --mark:#F5C842; --mark-soft:#4A3D12;
+  --warn:#F0937A; --warn-soft:#3B211A; --ok:#72CC90; --ok-soft:#173222;
+  --c-mat:#6E8189; --c-tempo:#4FC3B2; --c-fix:#3D5058; --c-lucro:#F5C842; --c-taxa:#E08A73;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;margin:0}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--mark);outline-offset:2px;border-radius:4px}
+
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:14px 20px;border-bottom:1px solid var(--line);background:var(--surface)}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:800;font-size:1.3rem;letter-spacing:-.01em}
+.brand svg{width:34px;height:20px}
+.brand small{font-family:var(--f-body);font-weight:400;font-size:.85rem;color:var(--muted);letter-spacing:0}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{background:none;border:0;padding:5px 12px;cursor:pointer;font-size:.85rem;font-weight:700;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.ghost{background:none;border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer;font-size:.85rem;color:var(--muted)}
+.ghost:hover{color:var(--ink);border-color:var(--muted)}
+.confirm{display:flex;gap:8px;align-items:center;font-size:.85rem}
+.confirm .danger{background:var(--warn);color:var(--surface);border:0;border-radius:999px;padding:5px 12px;cursor:pointer;font-weight:700}
+
+
+.wrap{display:grid;grid-template-columns:230px minmax(0,1fr);gap:40px;max-width:1080px;margin:0 auto;padding:32px 20px 64px}
+.rail ol{list-style:none;margin:0;padding:0;display:grid;gap:2px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 20px)}
+.rail button{display:grid;grid-template-columns:28px 1fr;gap:8px;align-items:center;width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:7px 8px;cursor:pointer;color:var(--muted);font-size:.95rem}
+.rail button:hover{background:var(--surface);color:var(--ink)}
+.rail .n{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);font-size:.8rem;font-weight:700;font-variant-numeric:tabular-nums}
+.rail .done .n{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.rail [aria-current="step"]{background:var(--surface);color:var(--ink);font-weight:700}
+.rail [aria-current="step"] .n{background:var(--ink);border-color:var(--ink);color:var(--surface)}
+.progress{display:none}
+
+.sheet{min-width:0;max-width:720px}
+.eyebrow{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700;margin:0 0 6px}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(1.9rem,4vw,2.5rem);line-height:1.1;letter-spacing:-.02em;margin:0 0 10px;text-wrap:balance}
+h1 span{background:linear-gradient(transparent 58%,var(--mark-soft) 58%,var(--mark-soft) 92%,transparent 92%);padding:0 .08em}
+.lead{color:var(--muted);margin:0 0 28px;max-width:60ch}
+form{display:grid;gap:22px}
+.field{display:grid;gap:6px;min-width:0}
+.lbl,legend{font-weight:700;font-size:1rem;padding:0}
+.opt{font-weight:400;color:var(--muted);font-size:.85rem}
+.hint{margin:0;color:var(--muted);font-size:.9rem}
+fieldset{border:0;margin:0;padding:0;display:grid;gap:8px;min-width:0}
+fieldset legend{margin-bottom:8px}
+input[type="text"],textarea{width:100%;background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:10px 12px;line-height:1.4}
+textarea{min-height:88px;resize:vertical}
+input[type="text"]:focus,textarea:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--accent-soft)}
+.affix{display:flex;align-items:stretch;max-width:260px}
+.affix span{display:grid;place-items:center;padding:0 12px;background:var(--bg);border:1.5px solid var(--line);color:var(--muted);font-size:.9rem;white-space:nowrap}
+.affix .pre{border-right:0;border-radius:var(--r) 0 0 var(--r)}
+.affix .suf{border-left:0;border-radius:0 var(--r) var(--r) 0}
+.affix input{font-variant-numeric:tabular-nums}
+.affix .pre + input{border-radius:0 var(--r) var(--r) 0}
+.affix input:has(+ .suf){border-radius:var(--r) 0 0 var(--r)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative;display:inline-flex}
+.chip input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.chip span{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface);font-size:.95rem;cursor:pointer}
+.chip input:checked + span{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+.chip input:focus-visible + span{outline:3px solid var(--mark);outline-offset:2px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px}
+
+.nav{display:flex;justify-content:space-between;gap:12px;margin-top:34px;padding-top:20px;border-top:1px solid var(--line);flex-wrap:wrap}
+.btn{border:0;border-radius:999px;padding:11px 22px;font-weight:700;cursor:pointer}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.secondary{background:none;border:1.5px solid var(--line)}
+.btn.secondary:hover{border-color:var(--muted)}
+.btn.mark{background:var(--mark);color:#16232B}
+
+/* Calculadora de preço */
+.calc{background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:20px;display:grid;gap:14px;min-width:0}
+.calc .big{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.calc .big b{font-family:var(--f-display);font-weight:800;font-size:2.4rem;line-height:1;font-variant-numeric:tabular-nums}
+.calc .big small{color:var(--muted)}
+.bar{position:relative;display:flex;height:22px;border-radius:6px;overflow:visible;background:var(--bg)}
+.bar i{display:block;height:100%}
+.bar i:first-child{border-radius:6px 0 0 6px}
+.bar i:last-of-type{border-radius:0 6px 6px 0}
+.bar .pin{position:absolute;top:-6px;bottom:-6px;width:3px;background:var(--ink);border-radius:2px}
+.bar .pin em{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-style:normal;font-size:.75rem;font-weight:700;white-space:nowrap}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:6px 18px;margin:0;padding:0;list-style:none;font-size:.92rem}
+.legend li{display:flex;justify-content:space-between;gap:10px;font-variant-numeric:tabular-nums}
+.legend li span{display:flex;align-items:center;gap:8px;color:var(--muted)}
+.legend li span::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--c)}
+.note{margin:0;padding:10px 14px;border-radius:8px;font-size:.95rem}
+.note.warn{background:var(--warn-soft);color:var(--ink);box-shadow:inset 3px 0 0 var(--warn)}
+.note.ok{background:var(--ok-soft);box-shadow:inset 3px 0 0 var(--ok)}
+.note.info{background:var(--bg);color:var(--muted)}
+.pill{display:inline-block;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:999px}
+.pill.warn{background:var(--warn);color:var(--surface)}
+.pill.ok{background:var(--ok);color:var(--surface)}
+
+/* SWOT */
+.swot{display:grid;grid-template-columns:auto 1fr 1fr;gap:10px;min-width:0}
+.swot .axis{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;align-self:center}
+.quad{display:grid;gap:6px;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:14px;min-width:0}
+.quad label{font-family:var(--f-display);font-weight:800;font-size:1.1rem}
+.quad label small{display:block;font-family:var(--f-body);font-weight:400;font-size:.82rem;color:var(--muted)}
+.quad textarea{min-height:150px;font-size:.95rem;border-style:dashed}
+.quad.f{border-top:4px solid var(--ok)} .quad.fr{border-top:4px solid var(--warn)}
+.quad.o{border-top:4px solid var(--accent)} .quad.a{border-top:4px solid var(--c-lucro)}
+.swot-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.toast{font-size:.9rem;color:var(--muted)}
+
+/* Plano final */
+.doc{background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:clamp(18px,4vw,36px);display:grid;gap:30px;min-width:0}
+.doc header h2{font-family:var(--f-display);font-weight:800;font-size:1.7rem;line-height:1.15;margin:0 0 4px;text-wrap:balance}
+.doc header p{margin:0;color:var(--muted);font-size:.92rem}
+.doc h3{font-family:var(--f-display);font-weight:800;font-size:1.15rem;margin:0 0 10px;text-wrap:balance}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.kpi{border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:2px}
+.kpi span{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.kpi b{font-family:var(--f-display);font-size:1.5rem;font-variant-numeric:tabular-nums}
+.kpi small{font-size:.85rem;color:var(--muted)}
+.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:grid;gap:10px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--mark);color:#16232B;font-weight:700;font-size:.9rem}
+.doc .sub{margin:0 0 12px;color:var(--muted);font-size:.92rem;max-width:62ch}
+dl.rows{display:grid;grid-template-columns:minmax(120px,190px) minmax(0,1fr);gap:8px 18px;margin:0}
+dl.rows dt{color:var(--muted);font-size:.92rem}
+dl.rows dd{margin:0;overflow-wrap:anywhere}
+.doc .swot{grid-template-columns:1fr 1fr}
+.doc .quad ul{margin:0;padding-left:18px;font-size:.95rem}
+.doc .quad h4{margin:0;font-family:var(--f-display);font-size:1rem}
+.empty{color:var(--muted)}
+.foot{font-size:.85rem;color:var(--muted);margin-top:18px}
+
+@media (max-width:860px){
+  .wrap{grid-template-columns:minmax(0,1fr);gap:20px;padding-top:20px}
+  .rail{display:none}
+  .progress{display:grid;gap:6px}
+  .progress div{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+  .progress div i{display:block;height:100%;background:var(--accent)}
+  .progress p{margin:0;font-size:.85rem;color:var(--muted);font-weight:700}
+}
+@media (max-width:520px){
+  .swot{grid-template-columns:1fr}
+  .swot .axis{display:none}
+  .doc .swot{grid-template-columns:1fr}
+  dl.rows{grid-template-columns:1fr;gap:2px}
+  dl.rows dd{margin-bottom:10px}
+  .brand small{display:none}
+}
+@media (prefers-reduced-motion:no-preference){
+  .sheet{animation:in .25s ease-out}
+  @keyframes in{from{transform:translateY(6px)}to{transform:none}}
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="brand">
+    <svg viewBox="0 0 34 20" aria-hidden="true"><path d="M1 18 Q17 -4 33 18" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><path d="M1 18H33M9 9V18M17 6V18M25 9V18" fill="none" stroke="var(--ink)" stroke-width="1.6" stroke-linecap="round"/></svg>
+    Ponte <small id="tagline"></small>
+  </div>
+  <div class="tools">
+    <div class="seg" role="group" aria-label="Idioma / Language">
+      <button type="button" data-lang="pt">PT</button>
+      <button type="button" data-lang="es">ES</button>
+    </div>
+    <span id="resetBox"></span>
+  </div>
+</div>
+
+<div class="wrap">
+  <nav class="rail" aria-label="Passos"><ol id="rail"></ol></nav>
+  <main class="sheet" id="main"></main>
+</div>
+
+<script>
+const T = {
+pt:{
+  tagline:'Monte o plano do seu negócio, passo a passo.',
+  back:'Voltar', next:'Continuar', seePlan:'Ver meu plano', step:'Passo', of:'de', optional:'opcional',
+  reset:'Apagar tudo', resetQ:'Apagar todas as respostas?', resetYes:'Sim, apagar', cancel:'Cancelar',
+  saved:'Suas respostas ficam salvas só neste navegador.',
+  s_voce:'Sobre você', s_neg:'Seu negócio', s_cli:'Clientes', s_preco:'Preço', s_din:'Dinheiro',
+  s_div:'Divulgação e rede', s_swot:'Forças e desafios', s_meta:'Metas', s_plano:'Seu plano',
+  l_voce:'Comece por você. Seu tempo e seus documentos mudam o que é possível agora.',
+  l_neg:'Descreva o que você faz com suas palavras. Não precisa ser perfeito.',
+  l_cli:'Quem compra de você e por quê. Pense em pessoas reais que já compraram ou perguntaram.',
+  l_preco:'Vamos calcular um preço que paga o material, o seu tempo e ainda deixa uma reserva para o negócio crescer.',
+  l_din:'Separar o dinheiro é o primeiro passo para saber se o negócio dá lucro.',
+  l_div:'Onde as pessoas conhecem o seu trabalho, e quem pode ajudar no caminho.',
+  l_swot:'Esta é a sua matriz SWOT (também chamada FOFA). Use as sugestões como ponto de partida e edite como quiser.',
+  l_meta:'Aonde você quer chegar, e se o seu tempo cabe nessa meta.',
+  l_plano:'Seu plano, montado com as suas respostas. Volte e edite quando quiser.',
+
+  nome:'Seu nome', pais:'País de origem', cidade:'Cidade onde mora hoje', idiomas:'Idiomas que você fala',
+  tempo:'Há quanto tempo está no Brasil?', tempo_a:'Menos de 1 ano', tempo_b:'1 a 3 anos', tempo_c:'Mais de 3 anos',
+  docs:'Quais destes você já tem?', doc_cpf:'CPF', doc_rnm:'RNM / CRNM (documento de residência)', doc_ctps:'Carteira de Trabalho', doc_banco:'Conta em banco brasileiro',
+  emprego:'Você tem outro trabalho além do negócio?', emp_int:'Sim, tempo integral', emp_meio:'Sim, meio período', emp_nao:'Não',
+  horas:'Quantas horas por semana você consegue dedicar ao negócio?', horas_h:'Seja realista: conte o tempo que sobra depois do trabalho, da casa e da família.', h_sem:'h por semana',
+
+  negNome:'Nome do negócio', negNome_h:'Se ainda não tem, pode deixar em branco.',
+  oque:'O que você vende ou quer vender?',
+  tipo:'Que tipo de negócio é?', tipo_faco:'Produto que eu faço', tipo_revendo:'Produto que eu revendo', tipo_servico:'Serviço', tipo_comida:'Comida',
+  estagio:'Em que momento você está?', est_ideia:'Ainda é uma ideia', est_as_vezes:'Já vendo, às vezes', est_mensal:'Vendo todo mês',
+  origem:'Como começou? Você já fazia isso no seu país?',
+  diferencial:'O que torna o seu trabalho diferente?', diferencial_h:'O estilo, a receita da família, o idioma, o cuidado. O que as clientes elogiam?',
+
+  quem:'Quem compra de você?', quem_h:'Idade, gostos, onde moram. Ex.: mulheres de 25 a 40 anos que gostam de…',
+  onde:'Onde essas pessoas estão?',
+  ch_insta:'Instagram', ch_whats:'WhatsApp', ch_tiktok:'TikTok', ch_feira:'Feiras e eventos', ch_bairro:'No meu bairro', ch_comunidade:'Comunidade do meu país', ch_lojas:'Lojas parceiras', ch_mkt:'Marketplaces (Shopee, Elo7…)',
+  porque:'Por que compram de você e não de outra pessoa?',
+  desejo:'Que necessidade ou desejo o seu produto atende?',
+
+  prodRef:'Qual produto vamos calcular?', prodRef_h:'Escolha o que você mais vende ou quer vender.',
+  material:'Material por unidade', material_h:'Tecido, ingredientes, embalagem: tudo o que vai em 1 peça.',
+  horasUn:'Tempo para fazer 1 unidade', horasUn_h:'Meia hora = 0,5.', h_un:'horas',
+  valorHora:'Quanto você quer ganhar por hora de trabalho', valorHora_h:'Compare com o que você ganha por hora num emprego. Seu tempo tem valor.',
+  fixos:'Custos fixos do mês', fixos_h:'Internet, transporte, taxa do MEI, ferramentas.',
+  unidades:'Quantas unidades você vende (ou quer vender) por mês', u_mes:'por mês',
+  taxa:'Taxas de cartão ou plataforma', taxa_h:'Pix costuma ser 0%. Maquininha e marketplaces ficam com uma parte.',
+  margem:'Lucro para o negócio crescer', margem_h:'Uma reserva além do pagamento do seu tempo. Se não souber, comece com 20%.',
+  precoAtual:'Quanto você cobra hoje',
+  r_title:'Preço sugerido', r_round:'valor exato {x}',
+  r_mat:'Material', r_tempo:'Seu tempo', r_fixos:'Parte dos custos fixos', r_lucro:'Lucro do negócio', r_taxa:'Taxas',
+  r_min:'Mínimo para não ter prejuízo: {x}', r_hoje:'hoje',
+  r_baixo:'Hoje você cobra {a}. O custo real é {c}: cada venda paga menos do que valem o material e o seu tempo.',
+  r_meio:'Hoje você cobra {a}. Cobre o custo, mas sobra pouco para o negócio crescer.',
+  r_ok:'Hoje você cobra {a}, um valor que já cobre custos e lucro.',
+  r_cap:'Para fazer {u} unidades por mês você precisa de {h} h. Você tem cerca de {d} h no mês.',
+  r_cap_over:'Não cabe no seu tempo.', r_cap_ok:'Cabe no seu tempo.',
+  r_incomplete:'Preencha o tempo e o valor da hora para ver o preço.',
+
+  separa:'Você separa o dinheiro do negócio do seu dinheiro pessoal?', sep_sim:'Sim', sep_avezes:'Às vezes', sep_nao:'Não',
+  registro:'Você anota vendas e gastos?', reg_sim:'Sim, de forma organizada', reg_algumas:'Tenho algumas anotações', reg_nao:'Não anoto',
+  mei:'Seu negócio é formalizado?', mei_h:'MEI é o cadastro de microempreendedor individual. Com ele você tem CNPJ, emite nota fiscal e contribui para o INSS.',
+  mei_sim:'Sim, tenho MEI', mei_quero:'Não, mas quero entender', mei_nao:'Não, por enquanto',
+  recebe:'Como você recebe?', pg_pix:'Pix', pg_dinheiro:'Dinheiro', pg_cartao:'Cartão (maquininha)', pg_link:'Link de pagamento',
+  invest:'Quanto pode investir nos próximos 3 meses?', invest_h:'Pode ser zero. O plano se ajusta.',
+
+  canais:'Onde você divulga hoje?',
+  freq:'Quantas vezes por semana você consegue postar ou divulgar?', fq_1:'1 vez', fq_3:'2 a 3 vezes', fq_7:'Todos os dias',
+  receio:'O que impede você de divulgar mais?',
+  rede:'Quem já apoia você?', rd_familia:'Família', rd_amigas:'Amigas', rd_migrantes:'Outras migrantes', rd_ong:'Instituição ou ONG', rd_empre:'Outras empreendedoras', rd_ninguem:'Ninguém ainda',
+  ajuda:'Com o que você quer ajuda?', aj_port:'Português para vender', aj_mei:'Abrir MEI', aj_preco:'Calcular preços', aj_redes:'Redes sociais', aj_feiras:'Achar feiras', aj_rede:'Conhecer outras empreendedoras', aj_banco:'Conta e maquininha',
+
+  sw_f:'Forças', sw_f_s:'o que você já tem de bom', sw_fr:'Fraquezas', sw_fr_s:'o que precisa melhorar',
+  sw_o:'Oportunidades', sw_o_s:'o que está a seu favor lá fora', sw_a:'Ameaças', sw_a_s:'o que pode atrapalhar',
+  sw_in:'Dentro do negócio', sw_out:'Fora do negócio',
+  sw_suggest:'Sugerir a partir das minhas respostas', sw_added:'{n} sugestões adicionadas.', sw_none:'Nenhuma sugestão nova. Responda mais passos para receber sugestões.', sw_hint:'Uma ideia por linha.',
+  sg_dif:'Diferencial: {x}', sg_exp:'Experiência anterior com o que faz', sg_canal:'Já vende por {x}', sg_publico:'Sabe quem é a sua cliente',
+  sg_idiomas:'Fala {x}: pode atender clientes de mais de uma comunidade', sg_mensal:'Já tem vendas todo mês',
+  sg_separa:'Dinheiro do negócio misturado com o pessoal', sg_registro:'Sem controle organizado de vendas e gastos',
+  sg_preco:'Preço atual abaixo do custo real', sg_tempo:'Pouco tempo para produzir', sg_divulga:'Divulgação sem frequência definida',
+  sg_onde:'Clientes estão em {x}, onde você ainda não divulga', sg_comun:'A comunidade do seu país como primeiras clientes e divulgadoras',
+  sg_feira:'Feiras e eventos ligados ao seu público', sg_apoio:'Instituições e projetos de apoio a migrantes empreendedoras', sg_digital:'Redes sociais como divulgação de baixo custo',
+  sg_rede:'Rede de contatos ainda pequena', sg_formal:'Negócio sem formalização, o que pode trazer problemas ao crescer',
+  sg_plataforma:'Dependência das redes sociais e dos algoritmos', sg_industrial:'Concorrência de produtos industrializados mais baratos',
+  sg_sobrecarga:'Risco de sobrecarga ao conciliar com o emprego', sg_docs:'Documentos que faltam podem travar conta, MEI e maquininha',
+
+  meta3:'O que você quer conquistar em 3 meses?', meta12:'E em 1 ano?',
+  renda:'Quanto você quer que o negócio pague a você por mês?', renda_h:'Conta o pagamento do seu tempo mais o lucro de cada peça.',
+  m_title:'Para chegar lá', m_need:'{u} unidades de “{p}” por mês, cerca de {h} horas de trabalho.',
+  m_fits:'Cabe no seu tempo: você tem cerca de {d} h no mês.', m_over:'Não cabe no seu tempo: você tem cerca de {d} h no mês. Ajuste a meta, o preço ou o tempo de produção.',
+  m_needprice:'Complete o passo Preço para ver esta conta.', m_needrenda:'Informe a renda que você quer para ver quantas unidades precisa vender.',
+
+  p_title:'Plano de negócio', p_of:'de {x}', p_date:'Atualizado em {x}',
+  p_copy:'Copiar plano em texto', p_copied:'Plano copiado.', p_copyfail:'Não deu para copiar. Selecione o texto do plano e copie manualmente.',
+  p_passos:'Próximos passos', p_passos_s:'Em ordem: primeiro organizar o dinheiro e o preço, depois divulgar mais. Divulgar um produto com preço errado só aumenta o prejuízo.',
+  p_resumo:'Resumo', p_clientes:'Clientes', p_preco:'Preço', p_dinheiro:'Dinheiro', p_div:'Divulgação e rede', p_swot:'Matriz SWOT', p_metas:'Metas',
+  k_sug:'Preço sugerido', k_custo:'Custo por unidade', k_horas:'Horas por mês', k_renda:'Renda por peça',
+  k_pessoa:'Empreendedora', k_origem:'Origem', k_cidade:'Cidade', k_idiomas:'Idiomas', k_negocio:'Negócio', k_oque:'O que vende', k_tipo:'Tipo', k_estagio:'Momento', k_dif:'Diferencial', k_tempo:'Tempo para o negócio',
+  k_quem:'Quem compra', k_onde:'Onde estão', k_porque:'Por que compram', k_desejo:'O que buscam',
+  k_prod:'Produto', k_min:'Mínimo sem prejuízo', k_atual:'Preço atual',
+  k_separa:'Dinheiro separado', k_registro:'Controle', k_mei:'Formalização', k_recebe:'Recebe por', k_invest:'Pode investir (3 meses)',
+  k_canais:'Divulga em', k_freq:'Frequência', k_receio:'O que impede', k_rede:'Rede de apoio', k_ajuda:'Quer ajuda com',
+  k_m3:'Em 3 meses', k_m12:'Em 1 ano', k_rendaM:'Renda desejada', k_conta:'Conta',
+  perweek:'{x} por semana', since:'no Brasil há {x}',
+  a_separa:'Abra uma conta só para o negócio (uma conta digital gratuita serve). Todo dinheiro de venda entra nela, e você paga a si mesma um valor fixo por mês.',
+  a_registro:'Anote cada venda e cada gasto. Reserve 15 minutos por semana para isso, num caderno ou numa planilha.',
+  a_preco_up:'Suba o preço de “{p}” para pelo menos {x}. Avise as clientes antigas com antecedência.',
+  a_preco:'Use {x} como preço de “{p}” e refaça a conta quando o material ficar mais caro.',
+  a_tempo:'A meta não cabe no seu tempo. Escolha 2 ou 3 produtos principais e simplifique os outros, ou ajuste a meta.',
+  a_docs:'Providencie os documentos que faltam ({x}). Eles abrem portas para conta, MEI e maquininha.',
+  a_mei:'Veja se o MEI serve para você no Portal do Empreendedor (gov.br/mei). Você vai precisar de CPF e do documento de residência.',
+  a_div:'Divulgue {f} em {c}. Mostre o processo, as mãos trabalhando e as clientes usando.',
+  a_onde:'Comece a divulgar em {x}, onde suas clientes já estão.',
+  a_feira:'Procure uma feira ou evento por mês ligado ao seu público.',
+  a_port:'Procure um curso gratuito de português para migrantes na sua cidade. Universidades e instituições de acolhimento costumam oferecer.',
+  a_rede:'Participe de um grupo de empreendedoras migrantes ou de um projeto de apoio. Uma indicação vale muito no começo.',
+  a_sebrae:'O Sebrae oferece cursos gratuitos de gestão, preço e redes sociais. Escolha um curto para começar.',
+  a_vazio:'Responda os passos anteriores para montar os próximos passos.'
+},
+es:{
+  tagline:'Arma el plan de tu negocio, paso a paso.',
+  back:'Volver', next:'Continuar', seePlan:'Ver mi plan', step:'Paso', of:'de', optional:'opcional',
+  reset:'Borrar todo', resetQ:'¿Borrar todas las respuestas?', resetYes:'Sí, borrar', cancel:'Cancelar',
+  saved:'Tus respuestas se guardan solo en este navegador.',
+  s_voce:'Sobre ti', s_neg:'Tu negocio', s_cli:'Clientes', s_preco:'Precio', s_din:'Dinero',
+  s_div:'Difusión y red', s_swot:'Fortalezas y desafíos', s_meta:'Metas', s_plano:'Tu plan',
+  l_voce:'Empieza por ti. Tu tiempo y tus documentos cambian lo que es posible ahora.',
+  l_neg:'Describe lo que haces con tus palabras. No tiene que ser perfecto.',
+  l_cli:'Quién te compra y por qué. Piensa en personas reales que ya compraron o preguntaron.',
+  l_preco:'Vamos a calcular un precio que pague el material, tu tiempo y que además deje una reserva para que el negocio crezca.',
+  l_din:'Separar el dinero es el primer paso para saber si el negocio da ganancia.',
+  l_div:'Dónde la gente conoce tu trabajo, y quién puede ayudarte en el camino.',
+  l_swot:'Esta es tu matriz FODA (SWOT). Usa las sugerencias como punto de partida y edítalas como quieras.',
+  l_meta:'A dónde quieres llegar, y si tu tiempo alcanza para esa meta.',
+  l_plano:'Tu plan, armado con tus respuestas. Vuelve y edita cuando quieras.',
+
+  nome:'Tu nombre', pais:'País de origen', cidade:'Ciudad donde vives hoy', idiomas:'Idiomas que hablas',
+  tempo:'¿Hace cuánto estás en Brasil?', tempo_a:'Menos de 1 año', tempo_b:'1 a 3 años', tempo_c:'Más de 3 años',
+  docs:'¿Cuáles de estos ya tienes?', doc_cpf:'CPF', doc_rnm:'RNM / CRNM (documento de residencia)', doc_ctps:'Carteira de Trabalho', doc_banco:'Cuenta en banco brasileño',
+  emprego:'¿Tienes otro trabajo además del negocio?', emp_int:'Sí, tiempo completo', emp_meio:'Sí, medio tiempo', emp_nao:'No',
+  horas:'¿Cuántas horas por semana puedes dedicar al negocio?', horas_h:'Sé realista: cuenta el tiempo que queda después del trabajo, la casa y la familia.', h_sem:'h por semana',
+
+  negNome:'Nombre del negocio', negNome_h:'Si todavía no tiene, puedes dejarlo en blanco.',
+  oque:'¿Qué vendes o quieres vender?',
+  tipo:'¿Qué tipo de negocio es?', tipo_faco:'Producto que hago yo', tipo_revendo:'Producto que revendo', tipo_servico:'Servicio', tipo_comida:'Comida',
+  estagio:'¿En qué momento estás?', est_ideia:'Todavía es una idea', est_as_vezes:'Ya vendo, a veces', est_mensal:'Vendo todos los meses',
+  origem:'¿Cómo empezó? ¿Ya lo hacías en tu país?',
+  diferencial:'¿Qué hace diferente tu trabajo?', diferencial_h:'El estilo, la receta de la familia, el idioma, el cuidado. ¿Qué elogian tus clientas?',
+
+  quem:'¿Quién te compra?', quem_h:'Edad, gustos, dónde viven. Ej.: mujeres de 25 a 40 años a quienes les gusta…',
+  onde:'¿Dónde está esa gente?',
+  ch_insta:'Instagram', ch_whats:'WhatsApp', ch_tiktok:'TikTok', ch_feira:'Ferias y eventos', ch_bairro:'En mi barrio', ch_comunidade:'Comunidad de mi país', ch_lojas:'Tiendas aliadas', ch_mkt:'Marketplaces (Shopee, Elo7…)',
+  porque:'¿Por qué te compran a ti y no a otra persona?',
+  desejo:'¿Qué necesidad o deseo atiende tu producto?',
+
+  prodRef:'¿Qué producto vamos a calcular?', prodRef_h:'Elige el que más vendes o quieres vender.',
+  material:'Material por unidad', material_h:'Tela, ingredientes, empaque: todo lo que va en 1 pieza.',
+  horasUn:'Tiempo para hacer 1 unidad', horasUn_h:'Media hora = 0,5.', h_un:'horas',
+  valorHora:'Cuánto quieres ganar por hora de trabajo', valorHora_h:'Compáralo con lo que ganas por hora en un empleo. Tu tiempo vale.',
+  fixos:'Costos fijos del mes', fixos_h:'Internet, transporte, cuota del MEI, herramientas.',
+  unidades:'Cuántas unidades vendes (o quieres vender) por mes', u_mes:'por mes',
+  taxa:'Comisiones de tarjeta o plataforma', taxa_h:'Pix suele ser 0%. La maquinita y los marketplaces se quedan con una parte.',
+  margem:'Ganancia para que el negocio crezca', margem_h:'Una reserva además del pago de tu tiempo. Si no sabes, empieza con 20%.',
+  precoAtual:'Cuánto cobras hoy',
+  r_title:'Precio sugerido', r_round:'valor exacto {x}',
+  r_mat:'Material', r_tempo:'Tu tiempo', r_fixos:'Parte de los costos fijos', r_lucro:'Ganancia del negocio', r_taxa:'Comisiones',
+  r_min:'Mínimo para no perder dinero: {x}', r_hoje:'hoy',
+  r_baixo:'Hoy cobras {a}. El costo real es {c}: cada venta paga menos de lo que valen el material y tu tiempo.',
+  r_meio:'Hoy cobras {a}. Cubre el costo, pero queda poco para que el negocio crezca.',
+  r_ok:'Hoy cobras {a}, un valor que ya cubre costos y ganancia.',
+  r_cap:'Para hacer {u} unidades por mes necesitas {h} h. Tienes cerca de {d} h al mes.',
+  r_cap_over:'No alcanza tu tiempo.', r_cap_ok:'Alcanza tu tiempo.',
+  r_incomplete:'Completa el tiempo y el valor por hora para ver el precio.',
+
+  separa:'¿Separas el dinero del negocio de tu dinero personal?', sep_sim:'Sí', sep_avezes:'A veces', sep_nao:'No',
+  registro:'¿Anotas ventas y gastos?', reg_sim:'Sí, de forma organizada', reg_algumas:'Tengo algunas anotaciones', reg_nao:'No anoto',
+  mei:'¿Tu negocio está formalizado?', mei_h:'MEI es el registro de microemprendedor individual en Brasil. Con él tienes CNPJ, emites factura y aportas al INSS.',
+  mei_sim:'Sí, tengo MEI', mei_quero:'No, pero quiero entender', mei_nao:'No, por ahora',
+  recebe:'¿Cómo cobras?', pg_pix:'Pix', pg_dinheiro:'Efectivo', pg_cartao:'Tarjeta (maquinita)', pg_link:'Link de pago',
+  invest:'¿Cuánto puedes invertir en los próximos 3 meses?', invest_h:'Puede ser cero. El plan se ajusta.',
+
+  canais:'¿Dónde difundes hoy?',
+  freq:'¿Cuántas veces por semana puedes publicar o difundir?', fq_1:'1 vez', fq_3:'2 a 3 veces', fq_7:'Todos los días',
+  receio:'¿Qué te impide difundir más?',
+  rede:'¿Quién ya te apoya?', rd_familia:'Familia', rd_amigas:'Amigas', rd_migrantes:'Otras migrantes', rd_ong:'Institución u ONG', rd_empre:'Otras emprendedoras', rd_ninguem:'Nadie todavía',
+  ajuda:'¿Con qué quieres ayuda?', aj_port:'Portugués para vender', aj_mei:'Abrir MEI', aj_preco:'Calcular precios', aj_redes:'Redes sociales', aj_feiras:'Encontrar ferias', aj_rede:'Conocer a otras emprendedoras', aj_banco:'Cuenta y maquinita',
+
+  sw_f:'Fortalezas', sw_f_s:'lo bueno que ya tienes', sw_fr:'Debilidades', sw_fr_s:'lo que hay que mejorar',
+  sw_o:'Oportunidades', sw_o_s:'lo que afuera juega a tu favor', sw_a:'Amenazas', sw_a_s:'lo que puede complicar',
+  sw_in:'Dentro del negocio', sw_out:'Fuera del negocio',
+  sw_suggest:'Sugerir a partir de mis respuestas', sw_added:'{n} sugerencias agregadas.', sw_none:'Ninguna sugerencia nueva. Responde más pasos para recibir sugerencias.', sw_hint:'Una idea por línea.',
+  sg_dif:'Diferencial: {x}', sg_exp:'Experiencia previa con lo que hace', sg_canal:'Ya vende por {x}', sg_publico:'Sabe quién es su clienta',
+  sg_idiomas:'Habla {x}: puede atender clientes de más de una comunidad', sg_mensal:'Ya tiene ventas todos los meses',
+  sg_separa:'Dinero del negocio mezclado con el personal', sg_registro:'Sin control organizado de ventas y gastos',
+  sg_preco:'Precio actual por debajo del costo real', sg_tempo:'Poco tiempo para producir', sg_divulga:'Difusión sin frecuencia definida',
+  sg_onde:'Hay clientes en {x}, donde todavía no difundes', sg_comun:'La comunidad de tu país como primeras clientas y difusoras',
+  sg_feira:'Ferias y eventos ligados a tu público', sg_apoio:'Instituciones y proyectos de apoyo a migrantes emprendedoras', sg_digital:'Redes sociales como difusión de bajo costo',
+  sg_rede:'Red de contactos todavía pequeña', sg_formal:'Negocio sin formalizar, lo que puede traer problemas al crecer',
+  sg_plataforma:'Dependencia de las redes sociales y sus algoritmos', sg_industrial:'Competencia de productos industriales más baratos',
+  sg_sobrecarga:'Riesgo de sobrecarga al combinarlo con el empleo', sg_docs:'Documentos faltantes pueden trabar cuenta, MEI y maquinita',
+
+  meta3:'¿Qué quieres lograr en 3 meses?', meta12:'¿Y en 1 año?',
+  renda:'¿Cuánto quieres que el negocio te pague por mes?', renda_h:'Cuenta el pago de tu tiempo más la ganancia de cada pieza.',
+  m_title:'Para llegar allí', m_need:'{u} unidades de “{p}” por mes, cerca de {h} horas de trabajo.',
+  m_fits:'Alcanza tu tiempo: tienes cerca de {d} h al mes.', m_over:'No alcanza tu tiempo: tienes cerca de {d} h al mes. Ajusta la meta, el precio o el tiempo de producción.',
+  m_needprice:'Completa el paso Precio para ver esta cuenta.', m_needrenda:'Indica el ingreso que quieres para ver cuántas unidades necesitas vender.',
+
+  p_title:'Plan de negocio', p_of:'de {x}', p_date:'Actualizado el {x}',
+  p_copy:'Copiar plan en texto', p_copied:'Plan copiado.', p_copyfail:'No se pudo copiar. Selecciona el texto del plan y cópialo a mano.',
+  p_passos:'Próximos pasos', p_passos_s:'En orden: primero ordenar el dinero y el precio, después difundir más. Difundir un producto mal cotizado solo aumenta la pérdida.',
+  p_resumo:'Resumen', p_clientes:'Clientes', p_preco:'Precio', p_dinheiro:'Dinero', p_div:'Difusión y red', p_swot:'Matriz FODA', p_metas:'Metas',
+  k_sug:'Precio sugerido', k_custo:'Costo por unidad', k_horas:'Horas por mes', k_renda:'Ingreso por pieza',
+  k_pessoa:'Emprendedora', k_origem:'Origen', k_cidade:'Ciudad', k_idiomas:'Idiomas', k_negocio:'Negocio', k_oque:'Qué vende', k_tipo:'Tipo', k_estagio:'Momento', k_dif:'Diferencial', k_tempo:'Tiempo para el negocio',
+  k_quem:'Quién compra', k_onde:'Dónde están', k_porque:'Por qué compran', k_desejo:'Qué buscan',
+  k_prod:'Producto', k_min:'Mínimo sin pérdida', k_atual:'Precio actual',
+  k_separa:'Dinero separado', k_registro:'Control', k_mei:'Formalización', k_recebe:'Cobra por', k_invest:'Puede invertir (3 meses)',
+  k_canais:'Difunde en', k_freq:'Frecuencia', k_receio:'Qué lo impide', k_rede:'Red de apoyo', k_ajuda:'Quiere ayuda con',
+  k_m3:'En 3 meses', k_m12:'En 1 año', k_rendaM:'Ingreso deseado', k_conta:'Cuenta',
+  perweek:'{x} por semana', since:'en Brasil hace {x}',
+  a_separa:'Abre una cuenta solo para el negocio (una cuenta digital gratuita sirve). Todo el dinero de las ventas entra ahí, y te pagas a ti misma un monto fijo por mes.',
+  a_registro:'Anota cada venta y cada gasto. Reserva 15 minutos por semana para eso, en un cuaderno o una planilla.',
+  a_preco_up:'Sube el precio de “{p}” a por lo menos {x}. Avisa con anticipación a tus clientas de siempre.',
+  a_preco:'Usa {x} como precio de “{p}” y rehaz la cuenta cuando el material se encarezca.',
+  a_tempo:'La meta no alcanza en tu tiempo. Elige 2 o 3 productos principales y simplifica los demás, o ajusta la meta.',
+  a_docs:'Consigue los documentos que faltan ({x}). Abren la puerta a cuenta, MEI y maquinita.',
+  a_mei:'Revisa si el MEI te sirve en el Portal do Empreendedor (gov.br/mei). Vas a necesitar CPF y el documento de residencia.',
+  a_div:'Difunde {f} en {c}. Muestra el proceso, tus manos trabajando y a tus clientas usándolo.',
+  a_onde:'Empieza a difundir en {x}, donde ya están tus clientas.',
+  a_feira:'Busca una feria o evento por mes ligado a tu público.',
+  a_port:'Busca un curso gratuito de portugués para migrantes en tu ciudad. Universidades e instituciones de acogida suelen ofrecerlos.',
+  a_rede:'Participa en un grupo de emprendedoras migrantes o en un proyecto de apoyo. Una recomendación vale mucho al principio.',
+  a_sebrae:'El Sebrae ofrece cursos gratuitos de gestión, precios y redes sociales. Elige uno corto para empezar.',
+  a_vazio:'Responde los pasos anteriores para armar los próximos pasos.'
+}};
+
+const OPT = {
+  tempo:['tempo_a','tempo_b','tempo_c'],
+  docs:['doc_cpf','doc_rnm','doc_ctps','doc_banco'],
+  emprego:['emp_int','emp_meio','emp_nao'],
+  tipo:['tipo_faco','tipo_revendo','tipo_servico','tipo_comida'],
+  estagio:['est_ideia','est_as_vezes','est_mensal'],
+  ch:['ch_insta','ch_whats','ch_tiktok','ch_feira','ch_bairro','ch_comunidade','ch_lojas','ch_mkt'],
+  separa:['sep_sim','sep_avezes','sep_nao'],
+  registro:['reg_sim','reg_algumas','reg_nao'],
+  mei:['mei_sim','mei_quero','mei_nao'],
+  recebe:['pg_pix','pg_dinheiro','pg_cartao','pg_link'],
+  freq:['fq_1','fq_3','fq_7'],
+  rede:['rd_familia','rd_amigas','rd_migrantes','rd_ong','rd_empre','rd_ninguem'],
+  ajuda:['aj_port','aj_mei','aj_preco','aj_redes','aj_feiras','aj_rede','aj_banco']
+};
+
+const STEPS = [
+  {k:'s_voce', l:'l_voce', keys:['nome','pais','cidade','idiomas','tempo','docs','emprego','horas'], form:()=>
+    `<div class="grid2">${fText('nome')}${fText('pais')}</div><div class="grid2">${fText('cidade')}${fText('idiomas')}</div>`+
+    fRadio('tempo',OPT.tempo)+fChecks('docs',OPT.docs)+fRadio('emprego',OPT.emprego)+fNum('horas',{suf:t('h_sem')})},
+  {k:'s_neg', l:'l_neg', keys:['negNome','oque','tipo','estagio','origem','diferencial'], form:()=>
+    fText('negNome',{opt:1})+fArea('oque')+fRadio('tipo',OPT.tipo)+fRadio('estagio',OPT.estagio)+fArea('origem')+fArea('diferencial')},
+  {k:'s_cli', l:'l_cli', keys:['quem','onde','porque','desejo'], form:()=>
+    fArea('quem')+fChecks('onde',OPT.ch)+fArea('porque')+fArea('desejo')},
+  {k:'s_preco', l:'l_preco', keys:['prodRef','material','horasUn','valorHora','fixos','unidades','taxa','margem','precoAtual'], form:()=>
+    fText('prodRef')+
+    `<div class="grid2">${fNum('material',{pre:'R$'})}${fNum('horasUn',{suf:t('h_un')})}</div>`+
+    `<div class="grid2">${fNum('valorHora',{pre:'R$',suf:'/h'})}${fNum('fixos',{pre:'R$',suf:t('u_mes')})}</div>`+
+    `<div class="grid2">${fNum('unidades',{suf:t('u_mes')})}${fNum('taxa',{suf:'%'})}</div>`+
+    `<div class="grid2">${fNum('margem',{suf:'%'})}${fNum('precoAtual',{pre:'R$',opt:1})}</div>`+
+    `<section class="calc" id="live" aria-live="polite"></section>`, live:livePrice},
+  {k:'s_din', l:'l_din', keys:['separa','registro','mei','recebe','invest'], form:()=>
+    fRadio('separa',OPT.separa)+fRadio('registro',OPT.registro)+fRadio('mei',OPT.mei)+fChecks('recebe',OPT.recebe)+fNum('invest',{pre:'R$'})},
+  {k:'s_div', l:'l_div', keys:['canais','freq','receio','rede','ajuda'], form:()=>
+    fChecks('canais',OPT.ch)+fRadio('freq',OPT.freq)+fArea('receio',{opt:1})+fChecks('rede',OPT.rede)+fChecks('ajuda',OPT.ajuda)},
+  {k:'s_swot', l:'l_swot', keys:['sw_f','sw_fr','sw_o','sw_a'], form:swotForm},
+  {k:'s_meta', l:'l_meta', keys:['meta3','meta12','renda'], form:()=>
+    fArea('meta3')+fArea('meta12')+fNum('renda',{pre:'R$',suf:t('u_mes')})+`<section class="calc" id="live" aria-live="polite"></section>`, live:liveMeta},
+  {k:'s_plano', l:'l_plano', keys:[], plan:true}
+];
+
+const LS = 'ponte-plano-v2';
+let d = {}, lang = 'pt', step = 0, confirming = false;
+const $ = s => document.querySelector(s);
+const main = $('#main');
+
+function t(k, v){ let s = (T[lang] && T[lang][k]) ?? T.pt[k] ?? k; if(v) for(const n in v) s = s.split('{'+n+'}').join(v[n]); return s; }
+function has(k){ return T[lang][k] !== undefined; }
+function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function num(k){ const n = parseFloat(String(d[k] ?? '').replace(/\s/g,'').replace(',', '.')); return isFinite(n) ? n : 0; }
+const fmt = new Intl.NumberFormat('pt-BR', {style:'currency', currency:'BRL'});
+const money = v => fmt.format(v);
+const n1 = v => (Math.round(v*10)/10).toLocaleString('pt-BR');
+const arr = k => Array.isArray(d[k]) ? d[k] : [];
+const list = (k) => arr(k).map(o => t(o)).join(', ');
+
+function load(){ try{ const r = JSON.parse(localStorage.getItem(LS) || 'null'); if(r && r.d){ d = r.d; lang = r.lang || 'pt'; step = r.step || 0; return true; } }catch(e){} return false; }
+function save(){ try{ localStorage.setItem(LS, JSON.stringify({d, lang, step})); }catch(e){} }
+
+/* ---------- campos ---------- */
+function lab(id, o={}){ return `<label class="lbl" for="f-${id}">${t(id)}${o.opt ? ` <span class="opt">(${t('optional')})</span>` : ''}</label>`; }
+function hint(id){ return has(id+'_h') ? `<p class="hint" id="h-${id}">${t(id+'_h')}</p>` : ''; }
+function aria(id){ return has(id+'_h') ? ` aria-describedby="h-${id}"` : ''; }
+function fText(id, o={}){ return `<div class="field">${lab(id,o)}${hint(id)}<input type="text" id="f-${id}" data-f="${id}" value="${esc(d[id])}"${aria(id)}></div>`; }
+function fArea(id, o={}){ return `<div class="field">${lab(id,o)}${hint(id)}<textarea id="f-${id}" data-f="${id}"${aria(id)}>${esc(d[id])}</textarea></div>`; }
+function fNum(id, o={}){
+  return `<div class="field">${lab(id,o)}${hint(id)}<div class="affix">${o.pre ? `<span class="pre">${o.pre}</span>` : ''}<input type="text" inputmode="decimal" id="f-${id}" data-f="${id}" value="${esc(d[id])}"${aria(id)}>${o.suf ? `<span class="suf">${esc(o.suf)}</span>` : ''}</div></div>`;
+}
+function fRadio(id, opts){
+  return `<fieldset${aria(id)}><legend>${t(id)}</legend>${hint(id)}<div class="chips">${opts.map(o =>
+    `<label class="chip"><input type="radio" id="f-${id}-${o}" name="f-${id}" data-f="${id}" value="${o}"${d[id]===o?' checked':''}><span>${t(o)}</span></label>`).join('')}</div></fieldset>`;
+}
+function fChecks(id, opts){
+  return `<fieldset${aria(id)}><legend>${t(id)}</legend>${hint(id)}<div class="chips">${opts.map(o =>
+    `<label class="chip"><input type="checkbox" id="f-${id}-${o}" data-g="${id}" value="${o}"${arr(id).includes(o)?' checked':''}><span>${t(o)}</span></label>`).join('')}</div></fieldset>`;
+}
+
+/* ---------- cálculo de preço ---------- */
+function calc(){
+  const m = num('material'), h = num('horasUn'), vh = num('valorHora'), fx = num('fixos'), u = num('unidades');
+  const tx = Math.min(Math.max(num('taxa'),0), 90) / 100, mg = Math.max(num('margem'),0) / 100;
+  if(!(h > 0 && vh > 0)) return null;
+  const fxU = u > 0 ? fx / u : 0, tempo = h * vh, custo = m + tempo + fxU, lucro = custo * mg;
+  const exato = (custo + lucro) / (1 - tx), preco = Math.ceil(exato);
+  return { m, h, u, tempo, fxU, custo, lucro, exato, preco, taxaV: preco - (custo + lucro), minimo: custo / (1 - tx),
+    atual: num('precoAtual'), dispMes: num('horas') * 4.33, precisaMes: h * u, renda: tempo + lucro };
+}
+function status(c){ if(!c || !c.atual) return null; return c.atual < c.minimo ? 'baixo' : c.atual < c.preco * 0.95 ? 'meio' : 'ok'; }
+
+function livePrice(){
+  const box = $('#live'); if(!box) return;
+  const c = calc();
+  if(!c){ box.innerHTML = `<p class="note info">${t('r_incomplete')}</p>`; return; }
+  const parts = [['r_mat',c.m,'--c-mat'],['r_tempo',c.tempo,'--c-tempo'],['r_fixos',c.fxU,'--c-fix'],['r_lucro',c.lucro,'--c-lucro'],['r_taxa',c.taxaV,'--c-taxa']];
+  const scale = Math.max(c.preco, c.atual || 0);
+  const st = status(c);
+  let html = `<p class="eyebrow">${t('r_title')}${c.u ? '' : ''}</p>
+    <div class="big"><b>${money(c.preco)}</b><small>${t('r_round',{x:money(c.exato)})} · ${t('r_min',{x:money(c.minimo)})}</small></div>
+    <div class="bar" role="img" aria-label="${esc(parts.map(p=>t(p[0])+' '+money(p[1])).join(', '))}">
+      ${parts.map(p => `<i style="width:${(p[1]/scale*100).toFixed(2)}%;background:var(${p[2]})"></i>`).join('')}
+      ${c.atual ? `<span class="pin" style="left:calc(${(c.atual/scale*100).toFixed(2)}% - 1.5px)"><em>${t('r_hoje')}</em></span>` : ''}
+    </div>
+    <ul class="legend">${parts.map(p => `<li style="--c:var(${p[2]})"><span>${t(p[0])}</span><b>${money(p[1])}</b></li>`).join('')}</ul>`;
+  if(st) html += `<p class="note ${st==='ok'?'ok':st==='baixo'?'warn':'info'}">${t('r_'+st,{a:money(c.atual), c:money(c.minimo)})}</p>`;
+  if(c.u && num('horas')){
+    const over = c.precisaMes > c.dispMes;
+    html += `<p class="note ${over?'warn':'ok'}"><span class="pill ${over?'warn':'ok'}">${t(over?'r_cap_over':'r_cap_ok')}</span> ${t('r_cap',{u:n1(c.u), h:n1(c.precisaMes), d:n1(c.dispMes)})}</p>`;
+  }
+  box.innerHTML = html;
+}
+
+function metaCalc(){
+  const c = calc(), r = num('renda');
+  if(!c || !(c.renda > 0)) return {c:null};
+  if(!r) return {c, r:0};
+  const u = Math.ceil(r / c.renda), h = u * c.h;
+  return {c, r, u, h, over: num('horas') > 0 && h > c.dispMes};
+}
+function liveMeta(){
+  const box = $('#live'); if(!box) return;
+  const m = metaCalc();
+  if(!m.c){ box.innerHTML = `<p class="note info">${t('m_needprice')}</p>`; return; }
+  if(!m.r){ box.innerHTML = `<p class="note info">${t('m_needrenda')}</p>`; return; }
+  box.innerHTML = `<p class="eyebrow">${t('m_title')}</p>
+    <div class="big"><b>${m.u}</b><small>${t('m_need',{u:m.u, p:esc(d.prodRef || '—'), h:n1(m.h)})}</small></div>
+    ${num('horas') ? `<p class="note ${m.over?'warn':'ok'}">${t(m.over?'m_over':'m_fits',{d:n1(m.c.dispMes)})}</p>` : ''}`;
+}
+
+/* ---------- SWOT ---------- */
+function swotForm(){
+  const q = (k, cls) => `<div class="quad ${cls}"><label for="f-${k}">${t(k)}<small>${t(k+'_s')}</small></label><textarea id="f-${k}" data-f="${k}" aria-describedby="sw-hint">${esc(d[k])}</textarea></div>`;
+  return `<div class="swot-actions"><button type="button" class="btn mark" id="suggest">${t('sw_suggest')}</button><span class="toast" id="toast" aria-live="polite"></span></div>
+    <p class="hint" id="sw-hint">${t('sw_hint')}</p>
+    <div class="swot">
+      <span class="axis">${t('sw_in')}</span>${q('sw_f','f')}${q('sw_fr','fr')}
+      <span class="axis">${t('sw_out')}</span>${q('sw_o','o')}${q('sw_a','a')}
+    </div>`;
+}
+function suggestions(){
+  const F=[], W=[], O=[], A=[], c = calc(), st = status(c), canais = arr('canais'), onde = arr('onde');
+  if(d.diferencial) F.push(t('sg_dif',{x:String(d.diferencial).split(/[.\n]/)[0].trim()}));
+  if(d.origem && String(d.origem).trim().length > 10) F.push(t('sg_exp'));
+  if(canais.length) F.push(t('sg_canal',{x:list('canais')}));
+  if(d.quem && String(d.quem).trim().length > 10) F.push(t('sg_publico'));
+  if(d.idiomas && /[,e y]/.test(String(d.idiomas).trim())) F.push(t('sg_idiomas',{x:String(d.idiomas).trim()}));
+  if(d.estagio === 'est_mensal') F.push(t('sg_mensal'));
+  if(d.separa && d.separa !== 'sep_sim') W.push(t('sg_separa'));
+  if(d.registro && d.registro !== 'reg_sim') W.push(t('sg_registro'));
+  if(st === 'baixo') W.push(t('sg_preco'));
+  if((c && c.u && num('horas') && c.precisaMes > c.dispMes) || d.emprego === 'emp_int') W.push(t('sg_tempo'));
+  if(d.freq === 'fq_1' || (d.freq === undefined && !canais.length && d.canais !== undefined)) W.push(t('sg_divulga'));
+  const faltam = onde.filter(o => !canais.includes(o) && o !== 'ch_comunidade');
+  if(faltam.length) O.push(t('sg_onde',{x:faltam.map(o=>t(o)).join(', ')}));
+  if(onde.includes('ch_comunidade') || arr('rede').includes('rd_migrantes')) O.push(t('sg_comun'));
+  if(onde.includes('ch_feira') || arr('ajuda').includes('aj_feiras')) O.push(t('sg_feira'));
+  if(arr('ajuda').length) O.push(t('sg_apoio'));
+  if(onde.some(o => ['ch_insta','ch_tiktok','ch_whats'].includes(o))) O.push(t('sg_digital'));
+  const rede = arr('rede');
+  if(rede.includes('rd_ninguem') || (rede.length && !rede.includes('rd_empre') && !rede.includes('rd_ong'))) A.push(t('sg_rede'));
+  if(d.mei && d.mei !== 'mei_sim') A.push(t('sg_formal'));
+  if(canais.length && canais.every(o => ['ch_insta','ch_whats','ch_tiktok','ch_mkt'].includes(o))) A.push(t('sg_plataforma'));
+  if(d.tipo === 'tipo_faco' || d.tipo === 'tipo_revendo') A.push(t('sg_industrial'));
+  if(d.emprego === 'emp_int' || d.emprego === 'emp_meio') A.push(t('sg_sobrecarga'));
+  if(d.docs !== undefined && (!arr('docs').includes('doc_cpf') || !arr('docs').includes('doc_rnm'))) A.push(t('sg_docs'));
+  return {sw_f:F, sw_fr:W, sw_o:O, sw_a:A};
+}
+function applySuggestions(){
+  const s = suggestions(); let n = 0;
+  for(const k in s){
+    const cur = String(d[k] || '').split('\n').map(x=>x.trim()).filter(Boolean);
+    const low = cur.map(x=>x.toLowerCase());
+    for(const line of s[k]) if(!low.includes(line.toLowerCase())){ cur.push(line); n++; }
+    d[k] = cur.join('\n');
+  }
+  return n;
+}
+
+/* ---------- próximos passos ---------- */
+function actions(){
+  const a = [], c = calc(), st = status(c), m = metaCalc(), docs = arr('docs'), canais = arr('canais'), onde = arr('onde'), aj = arr('ajuda');
+  const prod = d.prodRef || d.oque || '—';
+  if(d.separa && d.separa !== 'sep_sim') a.push(t('a_separa'));
+  if(d.registro && d.registro !== 'reg_sim') a.push(t('a_registro'));
+  if(c) a.push(t(st === 'baixo' || st === 'meio' ? 'a_preco_up' : 'a_preco', {p:prod, x:money(c.preco)}));
+  if((m.over) || (c && c.u && num('horas') && c.precisaMes > c.dispMes)) a.push(t('a_tempo'));
+  if(d.docs !== undefined){
+    const falta = ['doc_cpf','doc_rnm','doc_banco'].filter(x => !docs.includes(x));
+    if(falta.length) a.push(t('a_docs',{x:falta.map(x=>t(x)).join(', ')}));
+  }
+  if(d.mei && d.mei !== 'mei_sim' || aj.includes('aj_mei')) a.push(t('a_mei'));
+  const principal = canais[0] || onde.find(o => o !== 'ch_feira');
+  if(principal && d.freq) a.push(t('a_div',{f:t('perweek',{x:t(d.freq).toLowerCase()}).replace(/^(todos os dias|todos los días) por semana$/i,'$1'), c:t(principal)}));
+  const faltam = onde.filter(o => !canais.includes(o) && !['ch_feira','ch_comunidade','ch_bairro'].includes(o));
+  if(faltam.length) a.push(t('a_onde',{x:faltam.map(o=>t(o)).join(', ')}));
+  if(onde.includes('ch_feira') || aj.includes('aj_feiras')) a.push(t('a_feira'));
+  if(aj.includes('aj_preco') || aj.includes('aj_redes')) a.push(t('a_sebrae'));
+  if(aj.includes('aj_port')) a.push(t('a_port'));
+  const rede = arr('rede');
+  if(aj.includes('aj_rede') || rede.includes('rd_ninguem') || (rede.length && !rede.includes('rd_empre'))) a.push(t('a_rede'));
+  return a;
+}
+
+/* ---------- plano ---------- */
+function planModel(){
+  const c = calc(), m = metaCalc(), v = x => (x && String(x).trim()) ? String(x).trim() : '';
+  const origem = [v(d.pais), d.tempo ? t('since',{x:t(d.tempo).toLowerCase()}) : ''].filter(Boolean).join(', ');
+  const tempoNeg = [num('horas') ? `${n1(num('horas'))} ${t('h_sem')}` : '', d.emprego ? `${t('emprego').replace(/\?$/,'')}: ${t(d.emprego)}` : ''].filter(Boolean).join(' · ');
+  const lines = k => String(d[k] || '').split('\n').map(x=>x.trim()).filter(Boolean);
+  return {
+    title: v(d.negNome) || t('p_title'),
+    by: v(d.nome),
+    kpis: c ? [
+      ['k_sug', money(c.preco), v(d.prodRef)],
+      ['k_custo', money(c.custo), t('r_min',{x:money(c.minimo)})],
+      ['k_renda', money(c.renda), `${t('r_tempo')} + ${t('r_lucro').toLowerCase()}`],
+      ...(c.u ? [['k_horas', n1(c.precisaMes)+' h', `${n1(c.u)} un. · ${n1(c.dispMes)} h`]] : [])
+    ] : [],
+    actions: actions(),
+    sections: [
+      ['p_resumo', [['k_pessoa',v(d.nome)],['k_origem',origem],['k_cidade',v(d.cidade)],['k_idiomas',v(d.idiomas)],['k_negocio',v(d.negNome)],['k_oque',v(d.oque)],['k_tipo',d.tipo?t(d.tipo):''],['k_estagio',d.estagio?t(d.estagio):''],['k_dif',v(d.diferencial)],['k_tempo',tempoNeg]]],
+      ['p_clientes', [['k_quem',v(d.quem)],['k_onde',list('onde')],['k_porque',v(d.porque)],['k_desejo',v(d.desejo)]]],
+      ['p_preco', [['k_prod',v(d.prodRef)],['k_custo',c?money(c.custo):''],['k_min',c?money(c.minimo):''],['k_sug',c?money(c.preco):''],['k_atual',num('precoAtual')?money(num('precoAtual')):'']]],
+      ['p_dinheiro', [['k_separa',d.separa?t(d.separa):''],['k_registro',d.registro?t(d.registro):''],['k_mei',d.mei?t(d.mei):''],['k_recebe',list('recebe')],['k_invest',d.invest!==undefined&&d.invest!==''?money(num('invest')):'']]],
+      ['p_div', [['k_canais',list('canais')],['k_freq',d.freq?t('perweek',{x:t(d.freq).toLowerCase()}):''],['k_receio',v(d.receio)],['k_rede',list('rede')],['k_ajuda',list('ajuda')]]],
+      ['p_metas', [['k_m3',v(d.meta3)],['k_m12',v(d.meta12)],['k_rendaM',num('renda')?money(num('renda'))+' '+t('u_mes'):''],['k_conta', m.u ? t('m_need',{u:m.u,p:v(d.prodRef)||'—',h:n1(m.h)}) : '']]]
+    ],
+    swot: [['sw_f','f',lines('sw_f')],['sw_fr','fr',lines('sw_fr')],['sw_o','o',lines('sw_o')],['sw_a','a',lines('sw_a')]]
+  };
+}
+function planHTML(){
+  const P = planModel(), date = new Date().toLocaleDateString(lang==='es'?'es':'pt-BR',{day:'numeric',month:'long',year:'numeric'});
+  const rows = r => r.filter(x=>x[1]).length ? `<dl class="rows">${r.filter(x=>x[1]).map(([k,val]) => `<dt>${t(k)}</dt><dd>${esc(val)}</dd>`).join('')}</dl>` : `<p class="empty">—</p>`;
+  return `<div class="nav" style="margin:0 0 20px;padding:0;border:0"><button type="button" class="btn primary" id="copy">${t('p_copy')}</button><span class="toast" id="toast" aria-live="polite"></span></div>
+  <article class="doc" id="doc">
+    <header><p class="eyebrow">${t('p_title')}</p><h2>${esc(P.title)}${P.by ? ` <span style="font-weight:600;color:var(--muted)">${t('p_of',{x:esc(P.by)})}</span>` : ''}</h2><p>${t('p_date',{x:date})}</p></header>
+    ${P.kpis.length ? `<div class="kpis">${P.kpis.map(([k,b,s]) => `<div class="kpi"><span>${t(k)}</span><b>${esc(b)}</b>${s?`<small>${esc(s)}</small>`:''}</div>`).join('')}</div>` : ''}
+    <section><h3>${t('p_passos')}</h3><p class="sub">${t('p_passos_s')}</p>
+      ${P.actions.length ? `<ol class="steps">${P.actions.map(a=>`<li><span>${esc(a)}</span></li>`).join('')}</ol>` : `<p class="empty">${t('a_vazio')}</p>`}</section>
+    ${P.sections.slice(0,3).map(([k,r]) => `<section><h3>${t(k)}</h3>${rows(r)}</section>`).join('')}
+    <section><h3>${t('p_swot')}</h3><div class="swot">${P.swot.map(([k,cls,ls]) => `<div class="quad ${cls}"><h4>${t(k)}</h4>${ls.length?`<ul>${ls.map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`:'<p class="empty">—</p>'}</div>`).join('')}</div></section>
+    ${P.sections.slice(3).map(([k,r]) => `<section><h3>${t(k)}</h3>${rows(r)}</section>`).join('')}
+  </article>`;
+}
+function planText(){
+  const P = planModel(), out = [];
+  out.push(`${t('p_title').toUpperCase()}: ${P.title}${P.by ? ' ('+P.by+')' : ''}`, '');
+  if(P.kpis.length){ P.kpis.forEach(([k,b,s]) => out.push(`${t(k)}: ${b}${s?' ('+s+')':''}`)); out.push(''); }
+  out.push(t('p_passos').toUpperCase()); P.actions.forEach((a,i) => out.push(`${i+1}. ${a}`)); out.push('');
+  const sec = ([k,r]) => { out.push(t(k).toUpperCase()); r.filter(x=>x[1]).forEach(([kk,val]) => out.push(`- ${t(kk)}: ${val}`)); out.push(''); };
+  P.sections.slice(0,3).forEach(sec);
+  out.push(t('p_swot').toUpperCase()); P.swot.forEach(([k,,ls]) => { out.push(t(k)+':'); ls.forEach(l => out.push('  • '+l)); }); out.push('');
+  P.sections.slice(3).forEach(sec);
+  return out.join('\n');
+}
+
+/* ---------- renderização ---------- */
+function filled(s){ return s.keys.some(k => Array.isArray(d[k]) ? d[k].length : String(d[k] ?? '').trim() !== ''); }
+function renderChrome(){
+  document.documentElement.lang = lang === 'es' ? 'es' : 'pt-BR';
+  $('#tagline').textContent = t('tagline');
+  document.querySelectorAll('[data-lang]').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang));
+  $('#resetBox').innerHTML = confirming
+    ? `<span class="confirm">${t('resetQ')} <button type="button" class="danger" id="resetYes">${t('resetYes')}</button><button type="button" class="ghost" id="resetNo">${t('cancel')}</button></span>`
+    : `<button type="button" class="ghost" id="reset">${t('reset')}</button>`;
+  $('#rail').innerHTML = STEPS.map((s,i) => `<li><button type="button" data-go="${i}" class="${filled(s)?'done':''}"${i===step?' aria-current="step"':''}><span class="n">${i+1}</span>${t(s.k)}</button></li>`).join('');
+}
+function render(focus){
+  const s = STEPS[step], last = step === STEPS.length - 1;
+  main.innerHTML = `
+    <div class="progress"><p>${t('step')} ${step+1} ${t('of')} ${STEPS.length} · ${t(s.k)}</p><div><i style="width:${(step+1)/STEPS.length*100}%"></i></div></div>
+    <p class="eyebrow" style="margin-top:8px">${t('step')} ${step+1} ${t('of')} ${STEPS.length}</p>
+    <h1><span>${t(s.k)}</span></h1>
+    <p class="lead">${t(s.l)}</p>
+    ${s.plan ? planHTML() : `<form id="form" novalidate>${s.form()}</form>`}
+    <div class="nav">
+      ${step > 0 ? `<button type="button" class="btn secondary" data-go="${step-1}">← ${t('back')}</button>` : '<span></span>'}
+      ${!last ? `<button type="button" class="btn primary" data-go="${step+1}">${step === STEPS.length-2 ? t('seePlan') : t('next')} →</button>` : ''}
+    </div>
+    <p class="foot">${t('saved')}</p>`;
+  renderChrome();
+  if(s.live) s.live();
+  if(focus){ window.scrollTo({top:0}); main.querySelector('h1').setAttribute('tabindex','-1'); main.querySelector('h1').focus({preventScroll:true}); }
+}
+function go(i){ step = Math.max(0, Math.min(STEPS.length-1, i)); save(); render(true); }
+
+function onField(e){
+  const el = e.target;
+  if(el.dataset.f){ if(el.type === 'radio'){ if(!el.checked) return; } d[el.dataset.f] = el.value; }
+  else if(el.dataset.g){ d[el.dataset.g] = [...main.querySelectorAll(`[data-g="${el.dataset.g}"]:checked`)].map(x => x.value); }
+  else return;
+  save();
+  const s = STEPS[step]; if(s.live) s.live();
+  const btn = document.querySelector(`#rail [data-go="${step}"]`); if(btn) btn.classList.toggle('done', !!filled(s));
+}
+main.addEventListener('input', onField);
+main.addEventListener('change', onField);
+main.addEventListener('submit', e => e.preventDefault());
+
+document.addEventListener('click', async e => {
+  const g = e.target.closest('[data-go]'); if(g){ go(+g.dataset.go); return; }
+  const l = e.target.closest('[data-lang]'); if(l){ lang = l.dataset.lang; save(); render(false); return; }
+  const id = e.target.closest('button')?.id;
+  if(id === 'reset'){ confirming = true; renderChrome(); $('#resetYes').focus(); }
+  else if(id === 'resetNo'){ confirming = false; renderChrome(); }
+  else if(id === 'resetYes'){ confirming = false; d = {}; step = 0; save(); render(true); }
+  else if(id === 'suggest'){ const n = applySuggestions(); save(); render(false); $('#toast').textContent = n ? t('sw_added',{n}) : t('sw_none'); }
+  else if(id === 'copy'){
+    const txt = planText();
+    try{ await navigator.clipboard.writeText(txt); $('#toast').textContent = t('p_copied'); }
+    catch(err){ $('#toast').textContent = t('p_copyfail'); const r = document.createRange(); r.selectNodeContents($('#doc')); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); }
+  }
+});
+
+load();
+render(false);
+</script>
+</body>
+</html>
