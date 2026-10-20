@@ -119,6 +119,11 @@ input[type="text"]:focus,textarea:focus{border-color:var(--accent);outline:none;
 .legend li{display:flex;justify-content:space-between;gap:10px;font-variant-numeric:tabular-nums}
 .legend li span{display:flex;align-items:center;gap:8px;color:var(--muted)}
 .legend li span::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--c)}
+.cta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:4px 0 22px;padding:18px 20px;border-radius:var(--r);background:var(--mark-soft);border:1.5px solid var(--mark)}
+.cta h3{font-family:var(--f-display);font-weight:800;font-size:1.1rem;margin:0 0 4px}
+.cta p{margin:0;font-size:.95rem;max-width:46ch}
+.cta .btn{text-decoration:none;white-space:nowrap}
+.doc .cta{margin:16px 0 0}
 .note{margin:0;padding:10px 14px;border-radius:8px;font-size:.95rem}
 .note.warn{background:var(--warn-soft);color:var(--ink)}
 .note.ok{background:var(--ok-soft)}
@@ -195,7 +200,7 @@ dl.rows dd{margin:0;overflow-wrap:anywhere}
   @page{margin:16mm}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   body{font-size:11pt}
-  .top,.rail,.progress,.sheet > .eyebrow,.sheet > h1,.sheet > .lead,.nav,.foot{display:none !important}
+  .cta,.top,.rail,.progress,.sheet > .eyebrow,.sheet > h1,.sheet > .lead,.nav,.foot{display:none !important}
   .wrap{display:block;max-width:none;padding:0}
   .sheet{animation:none}
   .doc{border:0;padding:0;background:none}
@@ -290,7 +295,8 @@ pt:{
 
   separa:'Você separa o dinheiro do negócio do seu dinheiro pessoal?', sep_sim:'Sim', sep_avezes:'Às vezes', sep_nao:'Não',
   registro:'Você anota vendas e gastos?', reg_sim:'Sim, de forma organizada', reg_algumas:'Tenho algumas anotações', reg_nao:'Não anoto',
-  mei:'Seu negócio é formalizado?', mei_h:'MEI é o cadastro de microempreendedor individual. Com ele você tem CNPJ, emite nota fiscal e contribui para o INSS. <a href="'+MEI_URL+'" target="_blank" rel="noopener">Veja como abrir no gov.br</a>',
+  mei:'Seu negócio é formalizado?', mei_h:'MEI é o cadastro de microempreendedor individual. Com ele você tem CNPJ, emite nota fiscal e contribui para o INSS.',
+  cta_t:'Quer formalizar o seu negócio?', cta_p:'No site do governo você vê quem pode ser MEI, quanto custa por mês e como abrir o seu CNPJ.', cta_b:'Quero ser MEI no gov.br',
   mei_sim:'Sim, tenho MEI', mei_quero:'Não, mas quero entender', mei_nao:'Não, por enquanto',
   recebe:'Como você recebe?', pg_pix:'Pix', pg_dinheiro:'Dinheiro', pg_cartao:'Cartão (maquininha)', pg_link:'Link de pagamento',
   invest:'Quanto pode investir nos próximos 3 meses?', invest_h:'Pode ser zero. O plano se ajusta.',
@@ -405,7 +411,8 @@ es:{
 
   separa:'¿Separas el dinero del negocio de tu dinero personal?', sep_sim:'Sí', sep_avezes:'A veces', sep_nao:'No',
   registro:'¿Anotas ventas y gastos?', reg_sim:'Sí, de forma organizada', reg_algumas:'Tengo algunas anotaciones', reg_nao:'No anoto',
-  mei:'¿Tu negocio está formalizado?', mei_h:'MEI es el registro de microemprendedor individual en Brasil. Con él tienes CNPJ, emites factura y aportas al INSS. <a href="'+MEI_URL+'" target="_blank" rel="noopener">Mira cómo abrirlo en gov.br (en portugués)</a>',
+  mei:'¿Tu negocio está formalizado?', mei_h:'MEI es el registro de microemprendedor individual en Brasil. Con él tienes CNPJ, emites factura y aportas al INSS.',
+  cta_t:'¿Quieres formalizar tu negocio?', cta_p:'En el sitio del gobierno (en portugués) ves quién puede ser MEI, cuánto cuesta por mes y cómo abrir tu CNPJ.', cta_b:'Quiero ser MEI en gov.br',
   mei_sim:'Sí, tengo MEI', mei_quero:'No, pero quiero entender', mei_nao:'No, por ahora',
   recebe:'¿Cómo cobras?', pg_pix:'Pix', pg_dinheiro:'Efectivo', pg_cartao:'Tarjeta (maquinita)', pg_link:'Link de pago',
   invest:'¿Cuánto puedes invertir en los próximos 3 meses?', invest_h:'Puede ser cero. El plan se ajusta.',
@@ -496,7 +503,7 @@ const STEPS = [
     `<div class="grid2">${fNum('margem',{suf:'%'})}${fNum('precoAtual',{pre:'R$',opt:1})}</div>`+
     `<section class="calc" id="live" aria-live="polite"></section>`, live:livePrice},
   {k:'s_din', l:'l_din', keys:['separa','registro','mei','recebe','invest'], form:()=>
-    fRadio('separa',OPT.separa)+fRadio('registro',OPT.registro)+fRadio('mei',OPT.mei)+fChecks('recebe',OPT.recebe)+fNum('invest',{pre:'R$'})},
+    fRadio('separa',OPT.separa)+fRadio('registro',OPT.registro)+fRadio('mei',OPT.mei)+meiCta()+fChecks('recebe',OPT.recebe)+fNum('invest',{pre:'R$'})},
   {k:'s_div', l:'l_div', keys:['canais','freq','receio','rede','ajuda'], form:()=>
     fChecks('canais',OPT.ch)+fRadio('freq',OPT.freq)+fArea('receio',{opt:1})+fChecks('rede',OPT.rede)+fChecks('ajuda',OPT.ajuda)},
   {k:'s_swot', l:'l_swot', keys:['sw_f','sw_fr','sw_o','sw_a'], form:swotForm},
@@ -525,6 +532,7 @@ function save(){ try{ localStorage.setItem(LS, JSON.stringify({d, lang, step}));
 
 /* ---------- campos ---------- */
 function lab(id, o={}){ return `<label class="lbl" for="f-${id}">${t(id)}${o.opt ? ` <span class="opt">(${t('optional')})</span>` : ''}</label>`; }
+function meiCta(){ return `<div class="cta"><div><h3>${t('cta_t')}</h3><p>${t('cta_p')}</p></div><a class="btn mark" href="${MEI_URL}" target="_blank" rel="noopener">${t('cta_b')} →</a></div>`; }
 function hint(id){ return has(id+'_h') ? `<p class="hint" id="h-${id}">${t(id+'_h')}</p>` : ''; }
 function aria(id){ return has(id+'_h') ? ` aria-describedby="h-${id}"` : ''; }
 function fText(id, o={}){ return `<div class="field">${lab(id,o)}${hint(id)}<input type="text" id="f-${id}" data-f="${id}" value="${esc(d[id])}"${aria(id)}></div>`; }
@@ -701,7 +709,7 @@ function planHTML(){
     <header><p class="eyebrow">${t('p_title')}</p><h2>${esc(P.title)}${P.by ? ` <span style="font-weight:600;color:var(--muted)">${t('p_of',{x:esc(P.by)})}</span>` : ''}</h2><p>${t('p_date',{x:date})}</p></header>
     ${P.kpis.length ? `<div class="kpis">${P.kpis.map(([k,b,s]) => `<div class="kpi"><span>${t(k)}</span><b>${esc(b)}</b>${s?`<small>${esc(s)}</small>`:''}</div>`).join('')}</div>` : ''}
     <section><h3>${t('p_passos')}</h3><p class="sub">${t('p_passos_s')}</p>
-      ${P.actions.length ? `<ol class="steps">${P.actions.map(a=>`<li><span>${a.href ? `${esc(a.text)} <a href="${a.href}" target="_blank" rel="noopener">${esc(a.label)}</a>` : esc(a)}</span></li>`).join('')}</ol>` : `<p class="empty">${t('a_vazio')}</p>`}</section>
+      ${P.actions.length ? `<ol class="steps">${P.actions.map(a=>`<li><span>${a.href ? `${esc(a.text)} <a href="${a.href}" target="_blank" rel="noopener">${esc(a.label)}</a>` : esc(a)}</span></li>`).join('')}</ol>` : `<p class="empty">${t('a_vazio')}</p>`}${P.actions.some(a => a.href === MEI_URL) ? meiCta() : ''}</section>
     ${P.sections.slice(0,3).map(([k,r]) => `<section><h3>${t(k)}</h3>${rows(r)}</section>`).join('')}
     <section><h3>${t('p_swot')}</h3><div class="swot">${P.swot.map(([k,cls,ls]) => `<div class="quad ${cls}"><h4>${t(k)}</h4>${ls.length?`<ul>${ls.map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`:'<p class="empty">—</p>'}</div>`).join('')}</div></section>
     ${P.sections.slice(3).map(([k,r]) => `<section><h3>${t(k)}</h3>${rows(r)}</section>`).join('')}
