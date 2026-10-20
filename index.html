@@ -75,6 +75,7 @@ form{display:grid;gap:22px}
 .lbl,legend{font-weight:700;font-size:1rem;padding:0}
 .opt{font-weight:400;color:var(--muted);font-size:.85rem}
 .hint{margin:0;color:var(--muted);font-size:.9rem}
+.hint a,.steps a{color:var(--accent);font-weight:700}
 fieldset{border:0;margin:0;padding:0;display:grid;gap:8px;min-width:0}
 fieldset legend{margin-bottom:8px}
 input[type="text"],textarea{width:100%;background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:10px 12px;line-height:1.4}
@@ -200,6 +201,7 @@ dl.rows dd{margin:0;overflow-wrap:anywhere}
   .doc{border:0;padding:0;background:none}
   .doc section,.kpi,.quad,.doc header{break-inside:avoid}
   .doc h3{break-after:avoid}
+  .steps a::after{content:" (" attr(href) ")";overflow-wrap:anywhere}
   .doc .swot{grid-template-columns:1fr 1fr}
   dl.rows{grid-template-columns:minmax(120px,30%) 1fr;gap:4px 16px}
   dl.rows dd{margin-bottom:0}
@@ -229,6 +231,7 @@ dl.rows dd{margin:0;overflow-wrap:anywhere}
 </div>
 
 <script>
+const MEI_URL = 'https://www.gov.br/empresas-e-negocios/pt-br/empreendedor/quero-ser-mei';
 const T = {
 pt:{
   tagline:'Monte o plano do seu negócio, passo a passo.',
@@ -287,7 +290,7 @@ pt:{
 
   separa:'Você separa o dinheiro do negócio do seu dinheiro pessoal?', sep_sim:'Sim', sep_avezes:'Às vezes', sep_nao:'Não',
   registro:'Você anota vendas e gastos?', reg_sim:'Sim, de forma organizada', reg_algumas:'Tenho algumas anotações', reg_nao:'Não anoto',
-  mei:'Seu negócio é formalizado?', mei_h:'MEI é o cadastro de microempreendedor individual. Com ele você tem CNPJ, emite nota fiscal e contribui para o INSS.',
+  mei:'Seu negócio é formalizado?', mei_h:'MEI é o cadastro de microempreendedor individual. Com ele você tem CNPJ, emite nota fiscal e contribui para o INSS. <a href="'+MEI_URL+'" target="_blank" rel="noopener">Veja como abrir no gov.br</a>',
   mei_sim:'Sim, tenho MEI', mei_quero:'Não, mas quero entender', mei_nao:'Não, por enquanto',
   recebe:'Como você recebe?', pg_pix:'Pix', pg_dinheiro:'Dinheiro', pg_cartao:'Cartão (maquininha)', pg_link:'Link de pagamento',
   invest:'Quanto pode investir nos próximos 3 meses?', invest_h:'Pode ser zero. O plano se ajusta.',
@@ -336,7 +339,7 @@ pt:{
   a_preco:'Use {x} como preço de “{p}” e refaça a conta quando o material ficar mais caro.',
   a_tempo:'A meta não cabe no seu tempo. Escolha 2 ou 3 produtos principais e simplifique os outros, ou ajuste a meta.',
   a_docs:'Providencie os documentos que faltam ({x}). Eles abrem portas para conta, MEI e maquininha.',
-  a_mei:'Veja se o MEI serve para você no Portal do Empreendedor (gov.br/mei). Você vai precisar de CPF e do documento de residência.',
+  a_mei:'Veja se o MEI serve para você na página oficial do governo. Você vai precisar de CPF e do documento de residência.', a_mei_l:'Quero ser MEI (gov.br)',
   a_div:'Divulgue {f} em {c}. Mostre o processo, as mãos trabalhando e as clientes usando.',
   a_onde:'Comece a divulgar em {x}, onde suas clientes já estão.',
   a_feira:'Procure uma feira ou evento por mês ligado ao seu público.',
@@ -402,7 +405,7 @@ es:{
 
   separa:'¿Separas el dinero del negocio de tu dinero personal?', sep_sim:'Sí', sep_avezes:'A veces', sep_nao:'No',
   registro:'¿Anotas ventas y gastos?', reg_sim:'Sí, de forma organizada', reg_algumas:'Tengo algunas anotaciones', reg_nao:'No anoto',
-  mei:'¿Tu negocio está formalizado?', mei_h:'MEI es el registro de microemprendedor individual en Brasil. Con él tienes CNPJ, emites factura y aportas al INSS.',
+  mei:'¿Tu negocio está formalizado?', mei_h:'MEI es el registro de microemprendedor individual en Brasil. Con él tienes CNPJ, emites factura y aportas al INSS. <a href="'+MEI_URL+'" target="_blank" rel="noopener">Mira cómo abrirlo en gov.br (en portugués)</a>',
   mei_sim:'Sí, tengo MEI', mei_quero:'No, pero quiero entender', mei_nao:'No, por ahora',
   recebe:'¿Cómo cobras?', pg_pix:'Pix', pg_dinheiro:'Efectivo', pg_cartao:'Tarjeta (maquinita)', pg_link:'Link de pago',
   invest:'¿Cuánto puedes invertir en los próximos 3 meses?', invest_h:'Puede ser cero. El plan se ajusta.',
@@ -451,7 +454,7 @@ es:{
   a_preco:'Usa {x} como precio de “{p}” y rehaz la cuenta cuando el material se encarezca.',
   a_tempo:'La meta no alcanza en tu tiempo. Elige 2 o 3 productos principales y simplifica los demás, o ajusta la meta.',
   a_docs:'Consigue los documentos que faltan ({x}). Abren la puerta a cuenta, MEI y maquinita.',
-  a_mei:'Revisa si el MEI te sirve en el Portal do Empreendedor (gov.br/mei). Vas a necesitar CPF y el documento de residencia.',
+  a_mei:'Revisa si el MEI te sirve en la página oficial del gobierno (en portugués). Vas a necesitar CPF y el documento de residencia.', a_mei_l:'Quero ser MEI (gov.br)',
   a_div:'Difunde {f} en {c}. Muestra el proceso, tus manos trabajando y a tus clientas usándolo.',
   a_onde:'Empieza a difundir en {x}, donde ya están tus clientas.',
   a_feira:'Busca una feria o evento por mes ligado a tu público.',
@@ -650,7 +653,7 @@ function actions(){
     const falta = ['doc_cpf','doc_rnm','doc_banco'].filter(x => !docs.includes(x));
     if(falta.length) a.push(t('a_docs',{x:falta.map(x=>t(x)).join(', ')}));
   }
-  if(d.mei && d.mei !== 'mei_sim' || aj.includes('aj_mei')) a.push(t('a_mei'));
+  if(d.mei && d.mei !== 'mei_sim' || aj.includes('aj_mei')) a.push({text:t('a_mei'), href:MEI_URL, label:t('a_mei_l')});
   const principal = canais[0] || onde.find(o => o !== 'ch_feira');
   if(principal && d.freq) a.push(t('a_div',{f:t('perweek',{x:t(d.freq).toLowerCase()}).replace(/^(todos os dias|todos los días) por semana$/i,'$1'), c:t(principal)}));
   const faltam = onde.filter(o => !canais.includes(o) && !['ch_feira','ch_comunidade','ch_bairro'].includes(o));
@@ -698,7 +701,7 @@ function planHTML(){
     <header><p class="eyebrow">${t('p_title')}</p><h2>${esc(P.title)}${P.by ? ` <span style="font-weight:600;color:var(--muted)">${t('p_of',{x:esc(P.by)})}</span>` : ''}</h2><p>${t('p_date',{x:date})}</p></header>
     ${P.kpis.length ? `<div class="kpis">${P.kpis.map(([k,b,s]) => `<div class="kpi"><span>${t(k)}</span><b>${esc(b)}</b>${s?`<small>${esc(s)}</small>`:''}</div>`).join('')}</div>` : ''}
     <section><h3>${t('p_passos')}</h3><p class="sub">${t('p_passos_s')}</p>
-      ${P.actions.length ? `<ol class="steps">${P.actions.map(a=>`<li><span>${esc(a)}</span></li>`).join('')}</ol>` : `<p class="empty">${t('a_vazio')}</p>`}</section>
+      ${P.actions.length ? `<ol class="steps">${P.actions.map(a=>`<li><span>${a.href ? `${esc(a.text)} <a href="${a.href}" target="_blank" rel="noopener">${esc(a.label)}</a>` : esc(a)}</span></li>`).join('')}</ol>` : `<p class="empty">${t('a_vazio')}</p>`}</section>
     ${P.sections.slice(0,3).map(([k,r]) => `<section><h3>${t(k)}</h3>${rows(r)}</section>`).join('')}
     <section><h3>${t('p_swot')}</h3><div class="swot">${P.swot.map(([k,cls,ls]) => `<div class="quad ${cls}"><h4>${t(k)}</h4>${ls.length?`<ul>${ls.map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`:'<p class="empty">—</p>'}</div>`).join('')}</div></section>
     ${P.sections.slice(3).map(([k,r]) => `<section><h3>${t(k)}</h3>${rows(r)}</section>`).join('')}
@@ -708,7 +711,7 @@ function planText(){
   const P = planModel(), out = [];
   out.push(`${t('p_title').toUpperCase()}: ${P.title}${P.by ? ' ('+P.by+')' : ''}`, '');
   if(P.kpis.length){ P.kpis.forEach(([k,b,s]) => out.push(`${t(k)}: ${b}${s?' ('+s+')':''}`)); out.push(''); }
-  out.push(t('p_passos').toUpperCase()); P.actions.forEach((a,i) => out.push(`${i+1}. ${a}`)); out.push('');
+  out.push(t('p_passos').toUpperCase()); P.actions.forEach((a,i) => out.push(`${i+1}. ${a.href ? `${a.text} ${a.href}` : a}`)); out.push('');
   const sec = ([k,r]) => { out.push(t(k).toUpperCase()); r.filter(x=>x[1]).forEach(([kk,val]) => out.push(`- ${t(kk)}: ${val}`)); out.push(''); };
   P.sections.slice(0,3).forEach(sec);
   out.push(t('p_swot').toUpperCase()); P.swot.forEach(([k,,ls]) => { out.push(t(k)+':'); ls.forEach(l => out.push('  • '+l)); }); out.push('');
