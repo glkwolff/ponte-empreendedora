@@ -49,7 +49,7 @@ button,input,textarea{font:inherit;color:inherit}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
 .seg button{background:none;border:0;padding:5px 12px;cursor:pointer;font-size:.85rem;font-weight:700;color:var(--muted)}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
-.ghost{background:none;border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer;font-size:.85rem;color:var(--muted)}
+.ghost{text-decoration:none;background:none;border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer;font-size:.85rem;color:var(--muted)}
 .ghost:hover{color:var(--ink);border-color:var(--muted)}
 .confirm{display:flex;gap:8px;align-items:center;font-size:.85rem}
 .confirm .danger{background:var(--warn);color:var(--surface);border:0;border-radius:999px;padding:5px 12px;cursor:pointer;font-weight:700}
@@ -181,6 +181,29 @@ dl.rows dd{margin:0;overflow-wrap:anywhere}
   .sheet{animation:in .25s ease-out}
   @keyframes in{from{transform:translateY(6px)}to{transform:none}}
 }
+
+/* Impressão / PDF: só o plano, sempre na paleta clara */
+@media print{
+  :root:not(#print){
+    --bg:#FFFFFF; --surface:#FFFFFF; --ink:#16232B; --muted:#56656C; --line:#D3DCD6;
+    --accent:#0B6E63; --accent-ink:#FFFFFF; --accent-soft:#D5ECE7;
+    --mark:#F5C842; --mark-soft:#FBEBB3;
+    --warn:#A8402A; --warn-soft:#F7E0D8; --ok:#2C7A47; --ok-soft:#DCEFE2;
+    color-scheme:light;
+  }
+  @page{margin:16mm}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{font-size:11pt}
+  .top,.rail,.progress,.sheet > .eyebrow,.sheet > h1,.sheet > .lead,.nav,.foot{display:none !important}
+  .wrap{display:block;max-width:none;padding:0}
+  .sheet{animation:none}
+  .doc{border:0;padding:0;background:none}
+  .doc section,.kpi,.quad,.doc header{break-inside:avoid}
+  .doc h3{break-after:avoid}
+  .doc .swot{grid-template-columns:1fr 1fr}
+  dl.rows{grid-template-columns:minmax(120px,30%) 1fr;gap:4px 16px}
+  dl.rows dd{margin-bottom:0}
+}
 </style>
 </head>
 <body>
@@ -195,6 +218,7 @@ dl.rows dd{margin:0;overflow-wrap:anywhere}
       <button type="button" data-lang="pt">PT</button>
       <button type="button" data-lang="es">ES</button>
     </div>
+    <a class="ghost" id="feedback" href="https://forms.gle/snSxGCUu3HKnvzoKA" target="_blank" rel="noopener"></a>
     <span id="resetBox"></span>
   </div>
 </div>
@@ -295,7 +319,7 @@ pt:{
   m_needprice:'Complete o passo Preço para ver esta conta.', m_needrenda:'Informe a renda que você quer para ver quantas unidades precisa vender.',
 
   p_title:'Plano de negócio', p_of:'de {x}', p_date:'Atualizado em {x}',
-  p_copy:'Copiar plano em texto', p_copied:'Plano copiado.', p_copyfail:'Não deu para copiar. Selecione o texto do plano e copie manualmente.',
+  p_copy:'Copiar plano em texto', p_pdf:'Baixar PDF', p_pdf_h:'Na janela que abrir, escolha “Salvar como PDF”.', fb:'Sugerir melhoria', p_copied:'Plano copiado.', p_copyfail:'Não deu para copiar. Selecione o texto do plano e copie manualmente.',
   p_passos:'Próximos passos', p_passos_s:'Em ordem: primeiro organizar o dinheiro e o preço, depois divulgar mais. Divulgar um produto com preço errado só aumenta o prejuízo.',
   p_resumo:'Resumo', p_clientes:'Clientes', p_preco:'Preço', p_dinheiro:'Dinheiro', p_div:'Divulgação e rede', p_swot:'Matriz SWOT', p_metas:'Metas',
   k_sug:'Preço sugerido', k_custo:'Custo por unidade', k_horas:'Horas por mês', k_renda:'Renda por peça',
@@ -410,7 +434,7 @@ es:{
   m_needprice:'Completa el paso Precio para ver esta cuenta.', m_needrenda:'Indica el ingreso que quieres para ver cuántas unidades necesitas vender.',
 
   p_title:'Plan de negocio', p_of:'de {x}', p_date:'Actualizado el {x}',
-  p_copy:'Copiar plan en texto', p_copied:'Plan copiado.', p_copyfail:'No se pudo copiar. Selecciona el texto del plan y cópialo a mano.',
+  p_copy:'Copiar plan en texto', p_pdf:'Descargar PDF', p_pdf_h:'En la ventana que se abre, elige “Guardar como PDF”.', fb:'Sugerir una mejora', p_copied:'Plan copiado.', p_copyfail:'No se pudo copiar. Selecciona el texto del plan y cópialo a mano.',
   p_passos:'Próximos pasos', p_passos_s:'En orden: primero ordenar el dinero y el precio, después difundir más. Difundir un producto mal cotizado solo aumenta la pérdida.',
   p_resumo:'Resumen', p_clientes:'Clientes', p_preco:'Precio', p_dinheiro:'Dinero', p_div:'Difusión y red', p_swot:'Matriz FODA', p_metas:'Metas',
   k_sug:'Precio sugerido', k_custo:'Costo por unidad', k_horas:'Horas por mes', k_renda:'Ingreso por pieza',
@@ -669,7 +693,7 @@ function planModel(){
 function planHTML(){
   const P = planModel(), date = new Date().toLocaleDateString(lang==='es'?'es':'pt-BR',{day:'numeric',month:'long',year:'numeric'});
   const rows = r => r.filter(x=>x[1]).length ? `<dl class="rows">${r.filter(x=>x[1]).map(([k,val]) => `<dt>${t(k)}</dt><dd>${esc(val)}</dd>`).join('')}</dl>` : `<p class="empty">—</p>`;
-  return `<div class="nav" style="margin:0 0 20px;padding:0;border:0"><button type="button" class="btn primary" id="copy">${t('p_copy')}</button><span class="toast" id="toast" aria-live="polite"></span></div>
+  return `<div class="nav" style="margin:0 0 20px;padding:0;border:0"><button type="button" class="btn primary" id="copy">${t('p_copy')}</button><button type="button" class="btn secondary" id="pdf">${t('p_pdf')}</button><span class="toast" id="toast" aria-live="polite"></span></div>
   <article class="doc" id="doc">
     <header><p class="eyebrow">${t('p_title')}</p><h2>${esc(P.title)}${P.by ? ` <span style="font-weight:600;color:var(--muted)">${t('p_of',{x:esc(P.by)})}</span>` : ''}</h2><p>${t('p_date',{x:date})}</p></header>
     ${P.kpis.length ? `<div class="kpis">${P.kpis.map(([k,b,s]) => `<div class="kpi"><span>${t(k)}</span><b>${esc(b)}</b>${s?`<small>${esc(s)}</small>`:''}</div>`).join('')}</div>` : ''}
@@ -697,6 +721,7 @@ function filled(s){ return s.keys.some(k => Array.isArray(d[k]) ? d[k].length : 
 function renderChrome(){
   document.documentElement.lang = lang === 'es' ? 'es' : 'pt-BR';
   $('#tagline').textContent = t('tagline');
+  $('#feedback').textContent = t('fb');
   document.querySelectorAll('[data-lang]').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang));
   $('#resetBox').innerHTML = confirming
     ? `<span class="confirm">${t('resetQ')} <button type="button" class="danger" id="resetYes">${t('resetYes')}</button><button type="button" class="ghost" id="resetNo">${t('cancel')}</button></span>`
@@ -743,6 +768,13 @@ document.addEventListener('click', async e => {
   else if(id === 'resetNo'){ confirming = false; renderChrome(); }
   else if(id === 'resetYes'){ confirming = false; d = {}; step = 0; save(); render(true); }
   else if(id === 'suggest'){ const n = applySuggestions(); save(); render(false); $('#toast').textContent = n ? t('sw_added',{n}) : t('sw_none'); }
+  else if(id === 'pdf'){
+    $('#toast').textContent = t('p_pdf_h');
+    const title = document.title;
+    document.title = planModel().title;
+    addEventListener('afterprint', () => { document.title = title; }, {once:true});
+    print();
+  }
   else if(id === 'copy'){
     const txt = planText();
     try{ await navigator.clipboard.writeText(txt); $('#toast').textContent = t('p_copied'); }
