@@ -144,6 +144,14 @@ input[type="text"]:focus,textarea:focus{border-color:var(--accent);outline:none;
 .swot-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .toast{font-size:.9rem;color:var(--muted)}
 
+/* Canvas (modelo de negócio) */
+.canvas{display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"prop prop" "seg can" "rel rf" "rec ativ" "parc custo";gap:10px;min-width:0}
+.canvas .quad{grid-template-rows:auto 1fr}
+.canvas .quad label,.canvas .quad h4{overflow-wrap:anywhere;hyphens:auto}
+.canvas .quad textarea{min-height:120px}
+.cv-seg{grid-area:seg}.cv-prop{grid-area:prop}.cv-can{grid-area:can}.cv-rel{grid-area:rel}.cv-rf{grid-area:rf}.cv-rec{grid-area:rec}.cv-ativ{grid-area:ativ}.cv-parc{grid-area:parc}.cv-custo{grid-area:custo}
+.cv-parc,.cv-ativ,.cv-rec{--q:var(--accent)} .cv-prop{--q:var(--mark)} .cv-rel,.cv-can,.cv-seg{--q:var(--ok)} .cv-custo{--q:var(--warn)} .cv-rf{--q:var(--c-lucro)}
+
 /* Plano final */
 .doc{background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:clamp(18px,4vw,36px);display:grid;gap:30px;min-width:0}
 .doc header h2{font-family:var(--f-display);font-weight:800;font-size:1.7rem;line-height:1.15;margin:0 0 4px;text-wrap:balance}
@@ -164,6 +172,10 @@ dl.rows dd{margin:0;overflow-wrap:anywhere}
 .doc .swot{grid-template-columns:1fr 1fr}
 .doc .quad ul{margin:0;padding-left:18px;font-size:.95rem}
 .doc .quad h4{margin:0;font-family:var(--f-display);font-size:1rem}
+.doc .canvas{grid-template-columns:repeat(5,minmax(0,1fr));grid-template-areas:"parc ativ prop rel seg" "parc rec prop can seg" "custo custo rf rf rf";gap:8px}
+.doc .canvas .quad{padding:10px}
+.doc .canvas .quad h4{font-size:.9rem}
+.doc .canvas .quad ul{padding-left:14px;font-size:.85rem}
 .empty{color:var(--muted)}
 .foot{font-size:.85rem;color:var(--muted);margin-top:18px}
 
@@ -174,11 +186,14 @@ dl.rows dd{margin:0;overflow-wrap:anywhere}
   .progress div{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
   .progress div i{display:block;height:100%;background:var(--accent)}
   .progress p{margin:0;font-size:.85rem;color:var(--muted);font-weight:700}
+  .doc .canvas{grid-template-columns:1fr 1fr;grid-template-areas:"prop prop" "seg can" "rel rf" "rec ativ" "parc custo"}
 }
 @media (max-width:520px){
   .swot{grid-template-columns:1fr}
   .swot .axis{display:none}
   .doc .swot{grid-template-columns:1fr}
+  .canvas,.doc .canvas{grid-template-columns:1fr;grid-template-areas:none}
+  .canvas .quad{grid-area:auto}
   dl.rows{grid-template-columns:1fr;gap:2px}
   dl.rows dd{margin-bottom:10px}
   .brand small{display:none}
@@ -208,6 +223,10 @@ dl.rows dd{margin:0;overflow-wrap:anywhere}
   .doc h3{break-after:avoid}
   .steps a::after{content:" (" attr(href) ")";overflow-wrap:anywhere}
   .doc .swot{grid-template-columns:1fr 1fr}
+  .doc .canvas{grid-template-columns:repeat(5,minmax(0,1fr));grid-template-areas:"parc ativ prop rel seg" "parc rec prop can seg" "custo custo rf rf rf";gap:6px}
+  .doc .canvas .quad{padding:8px}
+  .doc .canvas .quad h4{font-size:.8rem}
+  .doc .canvas .quad ul{padding-left:12px;font-size:.78rem}
   dl.rows{grid-template-columns:minmax(120px,30%) 1fr;gap:4px 16px}
   dl.rows dd{margin-bottom:0}
 }
@@ -244,7 +263,7 @@ pt:{
   reset:'Apagar tudo', resetQ:'Apagar todas as respostas?', resetYes:'Sim, apagar', cancel:'Cancelar',
   saved:'Suas respostas ficam salvas só neste navegador.',
   s_voce:'Sobre você', s_neg:'Seu negócio', s_cli:'Clientes', s_preco:'Preço', s_din:'Dinheiro',
-  s_div:'Divulgação e rede', s_swot:'Forças e desafios', s_meta:'Metas', s_plano:'Seu plano',
+  s_div:'Divulgação e rede', s_swot:'Forças e desafios', s_canvas:'Modelo de negócio', s_meta:'Metas', s_plano:'Seu plano',
   l_voce:'Comece por você. Seu tempo e seus documentos mudam o que é possível agora.',
   l_neg:'Descreva o que você faz com suas palavras. Não precisa ser perfeito.',
   l_cli:'Quem compra de você e por quê. Pense em pessoas reais que já compraram ou perguntaram.',
@@ -252,6 +271,7 @@ pt:{
   l_din:'Separar o dinheiro é o primeiro passo para saber se o negócio dá lucro.',
   l_div:'Onde as pessoas conhecem o seu trabalho, e quem pode ajudar no caminho.',
   l_swot:'Esta é a sua matriz SWOT (também chamada FOFA). Use as sugestões como ponto de partida e edite como quiser.',
+  l_canvas:'Este é o seu Canvas: o negócio inteiro em uma página, em 9 blocos. Use as sugestões como ponto de partida e edite como quiser.',
   l_meta:'Aonde você quer chegar, e se o seu tempo cabe nessa meta.',
   l_plano:'Seu plano, montado com as suas respostas. Volte e edite quando quiser.',
 
@@ -321,6 +341,21 @@ pt:{
   sg_plataforma:'Dependência das redes sociais e dos algoritmos', sg_industrial:'Concorrência de produtos industrializados mais baratos',
   sg_sobrecarga:'Risco de sobrecarga ao conciliar com o emprego', sg_docs:'Documentos que faltam podem travar conta, MEI e maquininha',
 
+  cv_seg:'Segmentos de clientes', cv_seg_s:'para quem você vende', cv_prop:'Proposta de valor', cv_prop_s:'o que você oferece e por que vale a pena',
+  cv_can:'Canais', cv_can_s:'por onde as clientes conhecem e compram', cv_rel:'Relacionamento com clientes', cv_rel_s:'como você atende e mantém contato',
+  cv_rec_fin:'Fontes de receita', cv_rec_fin_s:'de onde o dinheiro entra', cv_rec:'Recursos principais', cv_rec_s:'o que você precisa ter para funcionar',
+  cv_ativ:'Atividades principais', cv_ativ_s:'o que você faz para o negócio andar', cv_parc:'Parcerias principais', cv_parc_s:'quem ajuda o negócio a funcionar',
+  cv_custo:'Estrutura de custos', cv_custo_s:'onde o dinheiro sai',
+  cg_seg_onde:'Pessoas que estão em {x}', cg_seg_comun:'A comunidade do seu país no Brasil',
+  cg_prop_dif:'Diferencial: {x}', cg_prop_desejo:'Atende a necessidade de: {x}', cg_prop_porque:'Escolhem você porque: {x}',
+  cg_can_vende:'Vende e divulga por {x}', cg_can_onde:'Clientes também estão em {x}',
+  cg_rel_whats:'Atendimento direto pelo WhatsApp', cg_rel_post:'Postagens {x}', cg_rel_comun:'Indicação boca a boca na comunidade', cg_rel_pessoal:'Atendimento pessoal no bairro e em feiras',
+  cg_rf_venda:'Venda de “{p}” a {x}', cg_rf_mes:'{u} unidades por mês ≈ {x}', cg_rf_recebe:'Recebe por {x}',
+  cg_rec_horas:'{x} h por semana dedicadas ao negócio', cg_rec_idiomas:'Fala {x}', cg_rec_exp:'Experiência trazida do país de origem', cg_rec_docs:'Documentos: {x}', cg_rec_invest:'{x} para investir nos próximos 3 meses',
+  cg_at_faco:'Produzir: {x}', cg_at_revendo:'Comprar e revender: {x}', cg_at_servico:'Prestar o serviço: {x}', cg_at_comida:'Preparar e entregar: {x}', cg_at_div:'Divulgar em {x}', cg_at_reg:'Anotar vendas e gastos',
+  cg_pa_lojas:'Lojas parceiras', cg_pa_mkt:'Marketplaces (Shopee, Elo7…)', cg_pa_rede:'Rede de apoio: {x}', cg_pa_ong:'Instituições e projetos de apoio a migrantes', cg_pa_forn:'Fornecedores de material',
+  cg_cu_mat:'Material: {x} por unidade', cg_cu_tempo:'Seu tempo: {x} por hora', cg_cu_fixos:'Custos fixos: {x} por mês', cg_cu_taxa:'Taxas de cartão ou plataforma: {x}%', cg_cu_mei:'Mensalidade do MEI',
+
   meta3:'O que você quer conquistar em 3 meses?', meta12:'E em 1 ano?',
   renda:'Quanto você quer que o negócio pague a você por mês?', renda_h:'Conta o pagamento do seu tempo mais o lucro de cada peça.',
   m_title:'Para chegar lá', m_need:'{u} unidades de “{p}” por mês, cerca de {h} horas de trabalho.',
@@ -330,7 +365,7 @@ pt:{
   p_title:'Plano de negócio', p_of:'de {x}', p_date:'Atualizado em {x}',
   p_copy:'Copiar plano em texto', p_pdf:'Baixar PDF', p_pdf_h:'Na janela que abrir, escolha “Salvar como PDF”.', fb:'Sugerir melhoria', p_copied:'Plano copiado.', p_copyfail:'Não deu para copiar. Selecione o texto do plano e copie manualmente.',
   p_passos:'Próximos passos', p_passos_s:'Em ordem: primeiro organizar o dinheiro e o preço, depois divulgar mais. Divulgar um produto com preço errado só aumenta o prejuízo.',
-  p_resumo:'Resumo', p_clientes:'Clientes', p_preco:'Preço', p_dinheiro:'Dinheiro', p_div:'Divulgação e rede', p_swot:'Matriz SWOT', p_metas:'Metas',
+  p_resumo:'Resumo', p_clientes:'Clientes', p_preco:'Preço', p_dinheiro:'Dinheiro', p_div:'Divulgação e rede', p_swot:'Matriz SWOT', p_canvas:'Modelo de negócio (Canvas)', p_metas:'Metas',
   k_sug:'Preço sugerido', k_custo:'Custo por unidade', k_horas:'Horas por mês', k_renda:'Renda por peça',
   k_pessoa:'Empreendedora', k_origem:'Origem', k_cidade:'Cidade', k_idiomas:'Idiomas', k_negocio:'Negócio', k_oque:'O que vende', k_tipo:'Tipo', k_estagio:'Momento', k_dif:'Diferencial', k_tempo:'Tempo para o negócio',
   k_quem:'Quem compra', k_onde:'Onde estão', k_porque:'Por que compram', k_desejo:'O que buscam',
@@ -360,7 +395,7 @@ es:{
   reset:'Borrar todo', resetQ:'¿Borrar todas las respuestas?', resetYes:'Sí, borrar', cancel:'Cancelar',
   saved:'Tus respuestas se guardan solo en este navegador.',
   s_voce:'Sobre ti', s_neg:'Tu negocio', s_cli:'Clientes', s_preco:'Precio', s_din:'Dinero',
-  s_div:'Difusión y red', s_swot:'Fortalezas y desafíos', s_meta:'Metas', s_plano:'Tu plan',
+  s_div:'Difusión y red', s_swot:'Fortalezas y desafíos', s_canvas:'Modelo de negocio', s_meta:'Metas', s_plano:'Tu plan',
   l_voce:'Empieza por ti. Tu tiempo y tus documentos cambian lo que es posible ahora.',
   l_neg:'Describe lo que haces con tus palabras. No tiene que ser perfecto.',
   l_cli:'Quién te compra y por qué. Piensa en personas reales que ya compraron o preguntaron.',
@@ -368,6 +403,7 @@ es:{
   l_din:'Separar el dinero es el primer paso para saber si el negocio da ganancia.',
   l_div:'Dónde la gente conoce tu trabajo, y quién puede ayudarte en el camino.',
   l_swot:'Esta es tu matriz FODA (SWOT). Usa las sugerencias como punto de partida y edítalas como quieras.',
+  l_canvas:'Este es tu Canvas: el negocio entero en una página, en 9 bloques. Usa las sugerencias como punto de partida y edítalas como quieras.',
   l_meta:'A dónde quieres llegar, y si tu tiempo alcanza para esa meta.',
   l_plano:'Tu plan, armado con tus respuestas. Vuelve y edita cuando quieras.',
 
@@ -437,6 +473,21 @@ es:{
   sg_plataforma:'Dependencia de las redes sociales y sus algoritmos', sg_industrial:'Competencia de productos industriales más baratos',
   sg_sobrecarga:'Riesgo de sobrecarga al combinarlo con el empleo', sg_docs:'Documentos faltantes pueden trabar cuenta, MEI y maquinita',
 
+  cv_seg:'Segmentos de clientes', cv_seg_s:'a quién le vendes', cv_prop:'Propuesta de valor', cv_prop_s:'qué ofreces y por qué vale la pena',
+  cv_can:'Canales', cv_can_s:'por dónde te conocen y te compran', cv_rel:'Relación con clientes', cv_rel_s:'cómo atiendes y mantienes el contacto',
+  cv_rec_fin:'Fuentes de ingresos', cv_rec_fin_s:'por dónde entra el dinero', cv_rec:'Recursos clave', cv_rec_s:'lo que necesitas tener para funcionar',
+  cv_ativ:'Actividades clave', cv_ativ_s:'lo que haces para que el negocio ande', cv_parc:'Socios clave', cv_parc_s:'quién ayuda a que el negocio funcione',
+  cv_custo:'Estructura de costos', cv_custo_s:'por dónde sale el dinero',
+  cg_seg_onde:'Personas que están en {x}', cg_seg_comun:'La comunidad de tu país en Brasil',
+  cg_prop_dif:'Diferencial: {x}', cg_prop_desejo:'Atiende la necesidad de: {x}', cg_prop_porque:'Te eligen porque: {x}',
+  cg_can_vende:'Vende y difunde por {x}', cg_can_onde:'Las clientas también están en {x}',
+  cg_rel_whats:'Atención directa por WhatsApp', cg_rel_post:'Publicaciones {x}', cg_rel_comun:'Recomendación boca a boca en la comunidad', cg_rel_pessoal:'Atención personal en el barrio y en ferias',
+  cg_rf_venda:'Venta de “{p}” a {x}', cg_rf_mes:'{u} unidades por mes ≈ {x}', cg_rf_recebe:'Cobra por {x}',
+  cg_rec_horas:'{x} h por semana dedicadas al negocio', cg_rec_idiomas:'Habla {x}', cg_rec_exp:'Experiencia traída del país de origen', cg_rec_docs:'Documentos: {x}', cg_rec_invest:'{x} para invertir en los próximos 3 meses',
+  cg_at_faco:'Producir: {x}', cg_at_revendo:'Comprar y revender: {x}', cg_at_servico:'Prestar el servicio: {x}', cg_at_comida:'Preparar y entregar: {x}', cg_at_div:'Difundir en {x}', cg_at_reg:'Anotar ventas y gastos',
+  cg_pa_lojas:'Tiendas asociadas', cg_pa_mkt:'Marketplaces (Shopee, Elo7…)', cg_pa_rede:'Red de apoyo: {x}', cg_pa_ong:'Instituciones y proyectos de apoyo a migrantes', cg_pa_forn:'Proveedores de material',
+  cg_cu_mat:'Material: {x} por unidad', cg_cu_tempo:'Tu tiempo: {x} por hora', cg_cu_fixos:'Costos fijos: {x} por mes', cg_cu_taxa:'Comisiones de tarjeta o plataforma: {x}%', cg_cu_mei:'Mensualidad del MEI',
+
   meta3:'¿Qué quieres lograr en 3 meses?', meta12:'¿Y en 1 año?',
   renda:'¿Cuánto quieres que el negocio te pague por mes?', renda_h:'Cuenta el pago de tu tiempo más la ganancia de cada pieza.',
   m_title:'Para llegar allí', m_need:'{u} unidades de “{p}” por mes, cerca de {h} horas de trabajo.',
@@ -446,7 +497,7 @@ es:{
   p_title:'Plan de negocio', p_of:'de {x}', p_date:'Actualizado el {x}',
   p_copy:'Copiar plan en texto', p_pdf:'Descargar PDF', p_pdf_h:'En la ventana que se abre, elige “Guardar como PDF”.', fb:'Sugerir una mejora', p_copied:'Plan copiado.', p_copyfail:'No se pudo copiar. Selecciona el texto del plan y cópialo a mano.',
   p_passos:'Próximos pasos', p_passos_s:'En orden: primero ordenar el dinero y el precio, después difundir más. Difundir un producto mal cotizado solo aumenta la pérdida.',
-  p_resumo:'Resumen', p_clientes:'Clientes', p_preco:'Precio', p_dinheiro:'Dinero', p_div:'Difusión y red', p_swot:'Matriz FODA', p_metas:'Metas',
+  p_resumo:'Resumen', p_clientes:'Clientes', p_preco:'Precio', p_dinheiro:'Dinero', p_div:'Difusión y red', p_swot:'Matriz FODA', p_canvas:'Modelo de negocio (Canvas)', p_metas:'Metas',
   k_sug:'Precio sugerido', k_custo:'Costo por unidad', k_horas:'Horas por mes', k_renda:'Ingreso por pieza',
   k_pessoa:'Emprendedora', k_origem:'Origen', k_cidade:'Ciudad', k_idiomas:'Idiomas', k_negocio:'Negocio', k_oque:'Qué vende', k_tipo:'Tipo', k_estagio:'Momento', k_dif:'Diferencial', k_tempo:'Tiempo para el negocio',
   k_quem:'Quién compra', k_onde:'Dónde están', k_porque:'Por qué compran', k_desejo:'Qué buscan',
@@ -487,6 +538,9 @@ const OPT = {
   ajuda:['aj_port','aj_mei','aj_preco','aj_redes','aj_feiras','aj_rede','aj_banco']
 };
 
+/* Canvas: [chave em d, sufixo da classe css]. Ordem de leitura: do cliente para dentro do negócio. */
+const CANVAS = [['cv_seg','seg'],['cv_prop','prop'],['cv_can','can'],['cv_rel','rel'],['cv_rec_fin','rf'],['cv_rec','rec'],['cv_ativ','ativ'],['cv_parc','parc'],['cv_custo','custo']];
+
 const STEPS = [
   {k:'s_voce', l:'l_voce', keys:['nome','pais','cidade','idiomas','tempo','docs','emprego','horas'], form:()=>
     `<div class="grid2">${fText('nome')}${fText('pais')}</div><div class="grid2">${fText('cidade')}${fText('idiomas')}</div>`+
@@ -507,6 +561,7 @@ const STEPS = [
   {k:'s_div', l:'l_div', keys:['canais','freq','receio','rede','ajuda'], form:()=>
     fChecks('canais',OPT.ch)+fRadio('freq',OPT.freq)+fArea('receio',{opt:1})+fChecks('rede',OPT.rede)+fChecks('ajuda',OPT.ajuda)},
   {k:'s_swot', l:'l_swot', keys:['sw_f','sw_fr','sw_o','sw_a'], form:swotForm},
+  {k:'s_canvas', l:'l_canvas', keys:CANVAS.map(c => c[0]), form:canvasForm},
   {k:'s_meta', l:'l_meta', keys:['meta3','meta12','renda'], form:()=>
     fArea('meta3')+fArea('meta12')+fNum('renda',{pre:'R$',suf:t('u_mes')})+`<section class="calc" id="live" aria-live="polite"></section>`, live:liveMeta},
   {k:'s_plano', l:'l_plano', keys:[], plan:true}
@@ -638,8 +693,8 @@ function suggestions(){
   if(d.docs !== undefined && (!arr('docs').includes('doc_cpf') || !arr('docs').includes('doc_rnm'))) A.push(t('sg_docs'));
   return {sw_f:F, sw_fr:W, sw_o:O, sw_a:A};
 }
-function applySuggestions(){
-  const s = suggestions(); let n = 0;
+function applySuggestions(s){
+  let n = 0;
   for(const k in s){
     const cur = String(d[k] || '').split('\n').map(x=>x.trim()).filter(Boolean);
     const low = cur.map(x=>x.toLowerCase());
@@ -647,6 +702,69 @@ function applySuggestions(){
     d[k] = cur.join('\n');
   }
   return n;
+}
+
+/* ---------- Canvas ---------- */
+function canvasForm(){
+  const q = ([k, cls]) => `<div class="quad cv-${cls}"><label for="f-${k}">${t(k)}<small>${t(k+'_s')}</small></label><textarea id="f-${k}" data-f="${k}" aria-describedby="cv-hint">${esc(d[k])}</textarea></div>`;
+  return `<div class="swot-actions"><button type="button" class="btn mark" id="suggestCanvas">${t('sw_suggest')}</button><span class="toast" id="toast" aria-live="polite"></span></div>
+    <p class="hint" id="cv-hint">${t('sw_hint')}</p>
+    <div class="canvas">${CANVAS.map(q).join('')}</div>`;
+}
+function first(k){ return String(d[k] || '').split(/[.\n]/)[0].trim(); }
+function freqTxt(){ return t('perweek',{x:t(d.freq).toLowerCase()}).replace(/^(todos os dias|todos los días) por semana$/i,'$1'); }
+function canvasSuggestions(){
+  const S = {}; CANVAS.forEach(([k]) => S[k] = []);
+  const add = (k, s) => { if(s) S[k].push(s); };
+  const c = calc(), canais = arr('canais'), onde = arr('onde'), rede = arr('rede'), aj = arr('ajuda'), docs = arr('docs');
+  const oq = first('oque') || String(d.prodRef || '').trim();
+  // segmentos de clientes
+  add('cv_seg', first('quem'));
+  const ondeNomes = onde.filter(o => o !== 'ch_comunidade');
+  if(ondeNomes.length) add('cv_seg', t('cg_seg_onde',{x:ondeNomes.map(o=>t(o)).join(', ')}));
+  if(onde.includes('ch_comunidade')) add('cv_seg', t('cg_seg_comun'));
+  // proposta de valor
+  add('cv_prop', first('oque'));
+  if(first('diferencial')) add('cv_prop', t('cg_prop_dif',{x:first('diferencial')}));
+  if(first('desejo')) add('cv_prop', t('cg_prop_desejo',{x:first('desejo')}));
+  if(first('porque')) add('cv_prop', t('cg_prop_porque',{x:first('porque')}));
+  // canais
+  if(canais.length) add('cv_can', t('cg_can_vende',{x:list('canais')}));
+  const faltam = onde.filter(o => !canais.includes(o) && o !== 'ch_comunidade');
+  if(faltam.length) add('cv_can', t('cg_can_onde',{x:faltam.map(o=>t(o)).join(', ')}));
+  // relacionamento
+  if(canais.includes('ch_whats') || onde.includes('ch_whats')) add('cv_rel', t('cg_rel_whats'));
+  if(d.freq) add('cv_rel', t('cg_rel_post',{x:freqTxt()}));
+  if(onde.includes('ch_comunidade') || rede.includes('rd_migrantes')) add('cv_rel', t('cg_rel_comun'));
+  if([...canais, ...onde].some(o => o === 'ch_bairro' || o === 'ch_feira')) add('cv_rel', t('cg_rel_pessoal'));
+  // fontes de receita
+  if(c) add('cv_rec_fin', t('cg_rf_venda',{p:String(d.prodRef || '').trim() || oq || '—', x:money(c.preco)}));
+  if(c && c.u) add('cv_rec_fin', t('cg_rf_mes',{u:n1(c.u), x:money(c.u * c.preco)}));
+  if(arr('recebe').length) add('cv_rec_fin', t('cg_rf_recebe',{x:list('recebe')}));
+  // recursos principais
+  if(num('horas') > 0) add('cv_rec', t('cg_rec_horas',{x:n1(num('horas'))}));
+  if(String(d.idiomas || '').trim()) add('cv_rec', t('cg_rec_idiomas',{x:String(d.idiomas).trim()}));
+  if(String(d.origem || '').trim().length > 10) add('cv_rec', t('cg_rec_exp'));
+  if(docs.length) add('cv_rec', t('cg_rec_docs',{x:list('docs')}));
+  if(num('invest') > 0) add('cv_rec', t('cg_rec_invest',{x:money(num('invest'))}));
+  // atividades principais
+  if(d.tipo) add('cv_ativ', t('cg_at_'+d.tipo.replace('tipo_',''),{x:oq}).replace(/:\s*$/,''));
+  if(canais.length) add('cv_ativ', t('cg_at_div',{x:list('canais')}));
+  if(d.registro) add('cv_ativ', t('cg_at_reg'));
+  // parcerias principais
+  if(canais.includes('ch_lojas') || onde.includes('ch_lojas')) add('cv_parc', t('cg_pa_lojas'));
+  if(canais.includes('ch_mkt') || onde.includes('ch_mkt')) add('cv_parc', t('cg_pa_mkt'));
+  const apoio = rede.filter(r => r !== 'rd_ninguem');
+  if(apoio.length) add('cv_parc', t('cg_pa_rede',{x:apoio.map(r=>t(r)).join(', ')}));
+  if(aj.length && !rede.includes('rd_ong')) add('cv_parc', t('cg_pa_ong'));
+  if(num('material') > 0 && d.tipo !== 'tipo_servico') add('cv_parc', t('cg_pa_forn'));
+  // estrutura de custos
+  if(num('material') > 0) add('cv_custo', t('cg_cu_mat',{x:money(num('material'))}));
+  if(num('valorHora') > 0) add('cv_custo', t('cg_cu_tempo',{x:money(num('valorHora'))}));
+  if(num('fixos') > 0) add('cv_custo', t('cg_cu_fixos',{x:money(num('fixos'))}));
+  if(num('taxa') > 0) add('cv_custo', t('cg_cu_taxa',{x:n1(num('taxa'))}));
+  if(d.mei === 'mei_sim' || d.mei === 'mei_quero') add('cv_custo', t('cg_cu_mei'));
+  return S;
 }
 
 /* ---------- próximos passos ---------- */
@@ -663,7 +781,7 @@ function actions(){
   }
   if(d.mei && d.mei !== 'mei_sim' || aj.includes('aj_mei')) a.push({text:t('a_mei'), href:MEI_URL, label:t('a_mei_l')});
   const principal = canais[0] || onde.find(o => o !== 'ch_feira');
-  if(principal && d.freq) a.push(t('a_div',{f:t('perweek',{x:t(d.freq).toLowerCase()}).replace(/^(todos os dias|todos los días) por semana$/i,'$1'), c:t(principal)}));
+  if(principal && d.freq) a.push(t('a_div',{f:freqTxt(), c:t(principal)}));
   const faltam = onde.filter(o => !canais.includes(o) && !['ch_feira','ch_comunidade','ch_bairro'].includes(o));
   if(faltam.length) a.push(t('a_onde',{x:faltam.map(o=>t(o)).join(', ')}));
   if(onde.includes('ch_feira') || aj.includes('aj_feiras')) a.push(t('a_feira'));
@@ -698,11 +816,13 @@ function planModel(){
       ['p_div', [['k_canais',list('canais')],['k_freq',d.freq?t('perweek',{x:t(d.freq).toLowerCase()}):''],['k_receio',v(d.receio)],['k_rede',list('rede')],['k_ajuda',list('ajuda')]]],
       ['p_metas', [['k_m3',v(d.meta3)],['k_m12',v(d.meta12)],['k_rendaM',num('renda')?money(num('renda'))+' '+t('u_mes'):''],['k_conta', m.u ? t('m_need',{u:m.u,p:v(d.prodRef)||'—',h:n1(m.h)}) : '']]]
     ],
-    swot: [['sw_f','f',lines('sw_f')],['sw_fr','fr',lines('sw_fr')],['sw_o','o',lines('sw_o')],['sw_a','a',lines('sw_a')]]
+    swot: [['sw_f','f',lines('sw_f')],['sw_fr','fr',lines('sw_fr')],['sw_o','o',lines('sw_o')],['sw_a','a',lines('sw_a')]],
+    canvas: CANVAS.map(([k,cls]) => [k, 'cv-'+cls, lines(k)])
   };
 }
 function planHTML(){
   const P = planModel(), date = new Date().toLocaleDateString(lang==='es'?'es':'pt-BR',{day:'numeric',month:'long',year:'numeric'});
+  const quads = q => q.map(([k,cls,ls]) => `<div class="quad ${cls}"><h4>${t(k)}</h4>${ls.length?`<ul>${ls.map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`:'<p class="empty">—</p>'}</div>`).join('');
   const rows = r => r.filter(x=>x[1]).length ? `<dl class="rows">${r.filter(x=>x[1]).map(([k,val]) => `<dt>${t(k)}</dt><dd>${esc(val)}</dd>`).join('')}</dl>` : `<p class="empty">—</p>`;
   return `<div class="nav" style="margin:0 0 20px;padding:0;border:0"><button type="button" class="btn primary" id="copy">${t('p_copy')}</button><button type="button" class="btn secondary" id="pdf">${t('p_pdf')}</button><span class="toast" id="toast" aria-live="polite"></span></div>
   <article class="doc" id="doc">
@@ -711,7 +831,8 @@ function planHTML(){
     <section><h3>${t('p_passos')}</h3><p class="sub">${t('p_passos_s')}</p>
       ${P.actions.length ? `<ol class="steps">${P.actions.map(a=>`<li><span>${a.href ? `${esc(a.text)} <a href="${a.href}" target="_blank" rel="noopener">${esc(a.label)}</a>` : esc(a)}</span></li>`).join('')}</ol>` : `<p class="empty">${t('a_vazio')}</p>`}${P.actions.some(a => a.href === MEI_URL) ? meiCta() : ''}</section>
     ${P.sections.slice(0,3).map(([k,r]) => `<section><h3>${t(k)}</h3>${rows(r)}</section>`).join('')}
-    <section><h3>${t('p_swot')}</h3><div class="swot">${P.swot.map(([k,cls,ls]) => `<div class="quad ${cls}"><h4>${t(k)}</h4>${ls.length?`<ul>${ls.map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`:'<p class="empty">—</p>'}</div>`).join('')}</div></section>
+    <section><h3>${t('p_swot')}</h3><div class="swot">${quads(P.swot)}</div></section>
+    <section><h3>${t('p_canvas')}</h3><div class="canvas">${quads(P.canvas)}</div></section>
     ${P.sections.slice(3).map(([k,r]) => `<section><h3>${t(k)}</h3>${rows(r)}</section>`).join('')}
   </article>`;
 }
@@ -722,7 +843,8 @@ function planText(){
   out.push(t('p_passos').toUpperCase()); P.actions.forEach((a,i) => out.push(`${i+1}. ${a.href ? `${a.text} ${a.href}` : a}`)); out.push('');
   const sec = ([k,r]) => { out.push(t(k).toUpperCase()); r.filter(x=>x[1]).forEach(([kk,val]) => out.push(`- ${t(kk)}: ${val}`)); out.push(''); };
   P.sections.slice(0,3).forEach(sec);
-  out.push(t('p_swot').toUpperCase()); P.swot.forEach(([k,,ls]) => { out.push(t(k)+':'); ls.forEach(l => out.push('  • '+l)); }); out.push('');
+  const quadsTxt = (title, q) => { out.push(t(title).toUpperCase()); q.forEach(([k,,ls]) => { out.push(t(k)+':'); ls.forEach(l => out.push('  • '+l)); }); out.push(''); };
+  quadsTxt('p_swot', P.swot); quadsTxt('p_canvas', P.canvas);
   P.sections.slice(3).forEach(sec);
   return out.join('\n');
 }
@@ -778,7 +900,7 @@ document.addEventListener('click', async e => {
   if(id === 'reset'){ confirming = true; renderChrome(); $('#resetYes').focus(); }
   else if(id === 'resetNo'){ confirming = false; renderChrome(); }
   else if(id === 'resetYes'){ confirming = false; d = {}; step = 0; save(); render(true); }
-  else if(id === 'suggest'){ const n = applySuggestions(); save(); render(false); $('#toast').textContent = n ? t('sw_added',{n}) : t('sw_none'); }
+  else if(id === 'suggest' || id === 'suggestCanvas'){ const n = applySuggestions(id === 'suggest' ? suggestions() : canvasSuggestions()); save(); render(false); $('#toast').textContent = n ? t('sw_added',{n}) : t('sw_none'); }
   else if(id === 'pdf'){
     $('#toast').textContent = t('p_pdf_h');
     const title = document.title;
